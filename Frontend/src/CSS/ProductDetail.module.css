@@ -1,0 +1,50 @@
+.container {
+  max-width: 1300px;
+  width: 100%;
+  padding: 1em;
+  margin: 0.5em auto;
+}
+.carousel_container {
+  padding: 1em 1em 0 1em;
+}
+.carousel_div {
+  max-height: 300px;
+  overflow: hidden;
+}
+.productdetails{
+    padding: 1em;
+}
+table.responsivetable {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.btn{
+    width: 100%;
+    margin: 0 0 .5em 0;
+    border: .5px solid black;
+    padding: 3px 0;
+    border-radius: 5px;
+    text-transform: uppercase;
+
+}
+.primary_btn{
+    background-color: #FFD84D;
+}
+.table_container{
+    padding:0 1em 1em 1em ;
+}
+table.responsivetable th,
+table.responsivetable td {
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+  table.responsivetable th,
+  table.responsivetable td {
+    padding: 4px;
+    font-size: 14px;
+  }
+}

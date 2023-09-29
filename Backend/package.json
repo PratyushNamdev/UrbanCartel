@@ -1,0 +1,23 @@
+{
+  "name": "urban-cartel-backend",
+  "version": "1.0.0",
+  "description": "Backend server for Urban-Cartel React web-app. This server handles product catalog managment , user authentication , order processing , and serves as the API layer for the Urban-Cartel platform. It communicates with the frontend to provide a seamless shopping experience , manages user accounts , and facilitates secure payment processing.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pratyush Namdev",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.2",
+    "nodemailer": "^6.9.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

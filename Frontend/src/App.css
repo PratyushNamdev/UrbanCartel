@@ -1,0 +1,14 @@
+/* .carousel .thumbs-wrapper {
+  display: none;
+} */
+
+.aixs-vertical{
+  background-color: yellowgreen;
+  margin: 0;
+}
+.carousel .thumbs-wrapper{
+  margin: 0 !important;
+}
+ul.thumbs {
+  margin-bottom: 0 !important;
+}
