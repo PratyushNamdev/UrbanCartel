@@ -1,4 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import toast from "react-hot-toast";
+
 const initialState = {
     productData : [],
     totalData:0,
@@ -10,13 +12,14 @@ export const getProducts = createAsyncThunk(
     "/products/getProducts",
     async (obj = {})=>{
        // let url = `http://localhost:5000/api/product/products?${obj.key}=${obj.value}`;
-    
-     return await fetch(`http://localhost:5000/api/product/products?${obj.key}=${obj.value}&sort=${obj.sort}`)
-     .then((data)=>data.json()) 
-     .catch((e)=>{
-        console.log("error  "+ e)
-     })
-    }
+   try{ 
+     return await fetch(`http://192.168.204.122:5000/api/product/products?${obj.key}=${obj.value}&sort=${obj.sort}`)
+     .then((data)=> data.json()) 
+     }
+     catch(e){
+      toast.error("Cannot Fetch Data ! Server Error")
+     }
+      }
 )
 const productSlice = createSlice({
     name:"products",
@@ -36,19 +39,18 @@ const productSlice = createSlice({
     extraReducers:(builder)=>{
        builder
        .addCase(getProducts.pending , (state)=>{
-        
+        state.isLoading = true;
        })
        .addCase(getProducts.fulfilled , (state , action)=>{
         state.isLoading = false;
-        state.productData = action.payload.data;
-        state.totalData = action.payload.totalDocs;
-        state.length = state.productData.length
-       
-        
+        state.productData = action.payload?.data;
+        state.totalData = action.payload?.totalDocs;
+        state.length = state.productData?.length
+      
        })
        .addCase(getProducts.rejected , (state , action)=>{
-        
-        console.log(action)
+         
+         toast.error("Some Error Occured")
        })
     }
 

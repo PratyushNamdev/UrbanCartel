@@ -6,18 +6,21 @@ export default function SearchProduct() {
  const [query  , setQuery] = useState("");
  const handleSubmit =(e)=>{
     e.preventDefault();
-     navigate("/productCatalog/search" , {state:{category:"title" , value:query}})
+    if(query.length > 0){
+
+      navigate("/productCatalog/search" , {state:{category:"title" , value:query}})
+    }
  }
   return (
-    <nav class="navbar navbar-light bg-light">
-    <form class="form-inline" onSubmit={handleSubmit}>
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value={query} onChange={(e)=>{
+    <nav className="navbar navbar-light ">
+    <form className="form-inline" onSubmit={handleSubmit}>
+      <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value={query} onChange={(e)=>{
         setQuery(e.target.value)
       }} style={{
        
       }}/>
-      <button class="btn btn-outline-success my-2 my-sm-0" style={{
-        backgroundColor:"#d4b743",
+      <button className="btn btn-outline-success my-2 my-sm-0" style={{
+        backgroundColor:"#ff9d00",
         color:"black",
         border:"1px solid black",
        

@@ -1,14 +1,45 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect , useState } from "react";
+import { useLocation , useParams } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Style from "../CSS/ProductDetail.module.css";
+// import { stayLogin  } from "../Store/Slices/AuthenticationSlice";
+// import { useDispatch } from "react-redux";
 export default function ProductDetail() {
   const location = useLocation();
-  const { props } = location.state;
-  const { data } = props;
+  const { productId } = useParams();
+  const [data, setData] = useState({});
+  //const dispatch = useDispatch();
 
+  const getData = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/product/products?id=${productId}`);
+      const responseData = await response.json();
+      console.log(responseData)
+      setData(responseData.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  useEffect(() => {
+   
+    if (location.state?.props) {
+      const { props } = location.state;
+    
+      setData(props.data);
+    } else {
+      getData();
+    }
+    // eslint-disable-next-line
+  }, [location.state, productId ]);
+
+  if(!data || !data.title){
+    return(
+      <h1>Loading</h1>
+    )
+  }
   return (
+<>
     <section>
       <div className={Style.container}>
         <div className={Style.carousel_container}>
@@ -70,5 +101,6 @@ export default function ProductDetail() {
 
       </div>
     </section>
+</>
   );
 }

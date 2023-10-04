@@ -1,0 +1,76 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+/* input[type=number] {
+  -moz-appearance: textfield;
+ 
+} */
+
+.container {
+  background-image: url("https://res.cloudinary.com/dgxvtemh2/image/upload/v1696160481/Urban%20Cartel/njbr3bpjzdrzwt20lhhc.jpg");
+  min-height: 95dvh;
+  
+  max-width: 1600px;
+  background-size: cover; /* Ensure the image covers the entire container */
+  background-repeat: no-repeat; /* Prevent image repetition */
+  background-position: center; /* Center the image within the container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+.signup_Container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 1em;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.7
+  ); /* Add a semi-transparent white background */
+  padding: 20px;
+  border-radius: 10px;
+}
+.form_element input {
+  width: 100%;
+  background-color: transparent;
+  
+  border: none;
+  border-bottom: 1px solid #000000; /* Add a bottom border for input separation */
+  padding: 7px;
+  font-size: 16px;
+  margin: 0.2em 0;
+  outline: none;
+}
+.form_element input::placeholder {
+  color: #000000;
+  text-transform: uppercase; /* Set the desired placeholder color */
+}
+.form_element input:focus::placeholder {
+  color: #61676d; /* Desired color when input is focused */
+}
+.btn{
+    background-color: #ff9d00;
+    width: 100%;
+    margin-top: 1em;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    /* outline: 1px solid rgb(0, 0, 0);
+    outline-offset: -7px; */
+    transition: background-color 0.3s ease;  
+}
+.btn:hover {
+    color: #ff9d00;
+    background-color: #000000;
+  }

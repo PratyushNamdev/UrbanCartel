@@ -20,7 +20,7 @@ figcaption {
   justify-content: flex-end;
   max-width: 1200px;
   width: 100%;
- padding: 0 1em 0 0 ;
+ padding: 0 0em 0 0 ;
 }
 .container {
     max-width: 1400px;

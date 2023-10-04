@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import img1 from "../images/Clothing & Accessories.jpeg";
-import img2 from "../images/Footwear.jpeg";
-import img3 from "../images/Bag , Belts and Wallets.jpeg";
-import img4 from "../images/T-shirts.jpeg";
 import Style from "../CSS/Home.module.css";
 import { Link } from "react-router-dom";
 import SearchProduct from "./SearchProduct";
-
+// import {  useDispatch  } from "react-redux";
+// import { stayLogin  } from "../Store/Slices/AuthenticationSlice";
+// import { setUser } from "../Store/Slices/UserInfoSlice";
 export default function Home() {
- 
+ // const {user} = useSelector((state)=>state.authentication)
+ // const dispatch = useDispatch();
   
+  useEffect(()=>{
+    if(localStorage.getItem("authToken")){
+      // dispatch(stayLogin());
+      // dispatch(setUser());
+    
+    }
+    // eslint-disable-next-line
+  },[])
   return (
     <div>
       <div className={Style.searchBox_container}>
@@ -29,22 +36,22 @@ export default function Home() {
             >
               <Link to="/productCatalog/clothing&accessories">
                 <div>
-                  <img src={img1} alt="img1" />
+                  <img src="https://res.cloudinary.com/dgxvtemh2/image/upload/v1695661208/Urban%20Cartel/Clothing_Accessories_d5obb8.jpg" alt="img1" />
                 </div>
               </Link>
               <Link to="/productCatalog/Footwear">
                 <div>
-                  <img src={img2} alt="img1" />
+                  <img src="https://res.cloudinary.com/dgxvtemh2/image/upload/v1695661210/Urban%20Cartel/Footwear_suo9ba.jpg" alt="img1" />
                 </div>
               </Link>
               <Link to="/productCatalog/bag&belts&wallets">
                 <div>
-                  <img src={img3} alt="img1" />
+                  <img src="https://res.cloudinary.com/dgxvtemh2/image/upload/v1695661204/Urban%20Cartel/Bag_Belts_and_Wallets_ieudcl.jpg" alt="img1" />
                 </div>
               </Link>
               <Link to="/productCatalog/t-shirts">
                 <div>
-                  <img src={img4} alt="img1" />
+                  <img src="https://res.cloudinary.com/dgxvtemh2/image/upload/v1695661199/Urban%20Cartel/T-shirts_mapxf0.jpg" alt="img1" />
                 </div>
               </Link>
             </Carousel>

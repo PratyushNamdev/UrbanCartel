@@ -39,7 +39,12 @@ const Products = require("../Models/Products_Model");
 router.get("/products", async (req, res) => {
   try {
     let data, totalDocs;
-    const { sub_category, category, title, sort } = req.query;
+    const { sub_category, category, title, sort , id } = req.query;
+
+    if(id){
+      data =  await Products.findById(id);
+      return res.json({data , totalDocs:1})
+    }
     let page = 1;
     if (parseInt(req.query.page) > 0) {
       page = parseInt(req.query.page);

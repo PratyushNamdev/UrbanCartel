@@ -6,11 +6,18 @@ import ProductCatalog from "./Components/ProductCatalog";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductDetail from "./Components/ProductDetail";
 import SearchProduct from "./Components/SearchProduct";
+import {Toaster} from 'react-hot-toast'
+import SignUp from "./Components/SignUp";
+import VerifyOTP from "./Components/VerifyOTP";
+import Login from "./Components/Login";
+import UserProfile from "./Components/UserProfile";
 function App() {
+ 
   return (
     <div>
       <BrowserRouter>
         <Navbar />
+        <Toaster/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/productCatalog/search" element={<ProductCatalog/>} />
@@ -29,6 +36,10 @@ function App() {
           <Route path="/productCatalog/jeans" element={<ProductCatalog category="title" value="Jeans"/>} />
           <Route path="/productDescription/:productId" element={<ProductDetail/>}/>
           <Route path="/search" element={<SearchProduct/>}/>
+          <Route path="/signup" element={<SignUp/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/verifyOTP" element={<VerifyOTP/>}/>
+          <Route path="/userProfile" element={<UserProfile/>}/>
           
         </Routes>
       </BrowserRouter>
