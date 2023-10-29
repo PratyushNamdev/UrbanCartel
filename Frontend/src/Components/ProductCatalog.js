@@ -17,7 +17,7 @@ export default function ProductCatalog(props) {
   const dispatch = useDispatch();
   const [page, setPage] = useState(2);
   const [dropdownValue, setDropdownValue] = useState("null");
-
+ const host = process.env.REACT_APP_HOST;
   let category, value;
 
   const location = useLocation();
@@ -37,8 +37,8 @@ export default function ProductCatalog(props) {
 
   useEffect(() => {
     setPage(2);
-    dispatch(getProducts({ key: category, value: value, sort: dropdownValue }));
-    // eslint-disable-next-line
+   dispatch(getProducts({ key: category, value: value, sort: dropdownValue }));
+   // eslint-disable-next-line
   }, [dropdownValue]);
   const onChange = (e) => {
     setDropdownValue(e.target.value);
@@ -48,7 +48,7 @@ export default function ProductCatalog(props) {
     try {
       setPage((prevPage) => prevPage + 1);
       const response = await fetch(
-        `http://192.168.204.122:5000/api/product/products?${category}=${value}&page=${page}&sort=${dropdownValue}`
+        `${host}/api/product/products?${category}=${value}&page=${page}&sort=${dropdownValue}`
       );
       const result = await response.json();
       dispatch(getMoreProducts(result));
@@ -56,7 +56,35 @@ export default function ProductCatalog(props) {
       toast.error("Cannot fetch aanymore !!");
     }
   };
- 
+  if(!length){
+    return (
+      <>
+      <div>Nothing to Show</div>
+      {/* if(1){
+        <>
+        return(
+          <div>lol</div>
+        )
+        </>
+      } */}
+      </>
+    )
+  }
+  if (isLoading) {
+    return( <>{ isLoading && (
+     <div
+       style={{
+         width: "100%",
+         maxWidth: "1200px",
+         margin: "2em auto",
+         padding: "3em",
+       }}
+     >
+       <Skeleton count={100} />
+     </div>
+   )}
+   </>)
+ }
   if (productData.length > 1) {
     return (
       <>
@@ -80,7 +108,7 @@ export default function ProductCatalog(props) {
           </select>
         </div>
         <InfiniteScroll
-          dataLength={length}
+         dataLength={length}
           next={call}
           hasMore={totalData !== length}
           inverse={false}
@@ -99,20 +127,6 @@ export default function ProductCatalog(props) {
       </>
     );
   }
-  if (isLoading) {
-    return( <>{ isLoading && (
-     <div
-       style={{
-         width: "100%",
-         maxWidth: "1200px",
-         margin: "2em auto",
-         padding: "3em",
-       }}
-     >
-       <Skeleton count={100} />
-     </div>
-   )}
-   </>)
- }
+ 
   return <div>this is lol</div>;
 }

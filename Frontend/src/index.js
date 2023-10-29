@@ -9,13 +9,13 @@ import reportWebVitals from "./reportWebVitals";
 import { store, persistor } from "./Store/store";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <App />
       </PersistGate>
     </Provider>
-  </React.StrictMode>
+ 
 );
 
 reportWebVitals();

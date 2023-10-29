@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 import { setUser } from "./UserInfoSlice";
 // import { useDispatch } from "react-redux";
-
+const host = process.env.REACT_APP_HOST;
 const initialState = {
   userId: "",
   isLoggedIn: false,
@@ -11,8 +11,9 @@ const initialState = {
 };
 export const signUp = createAsyncThunk("/api/signUp", async (formData = {}) => {
   try {
+    console.log(formData)
     const response = await fetch(
-      `http://192.168.204.122:5000/api/authentication/signup`,
+      `${host}/api/authentication/signup`,
       {
         method: "POST",
         headers: {
@@ -22,16 +23,14 @@ export const signUp = createAsyncThunk("/api/signUp", async (formData = {}) => {
       }
     );
 
-    if (!response.ok) {
-      throw new Error("Server responded with an error");
-    }
+   
 
     const data = await response.json();
-   
+   console.log(data)
     return data;
   } catch (e) {
     toast.error("An Error Occurred");
-    throw e;
+  
   }
 });
 
@@ -40,7 +39,7 @@ export const verifyOTP = createAsyncThunk(
   async (otpData = {}) => {
     try {
       const response = await fetch(
-        `http://192.168.204.122:5000/api/authentication/verifyOTP`,
+        `${host}/api/authentication/verifyOTP`,
         {
           method: "POST",
           headers: {
@@ -55,7 +54,11 @@ export const verifyOTP = createAsyncThunk(
       }
 
       const data = await response.json();
-
+      if(data.authToken){
+   
+        //   console.log("user" + data.payload.user)
+        otpData.dispatch(setUser(data.user))
+         }
       return data;
     } catch (e) {
       toast.error("An Error Occurred");
@@ -67,7 +70,7 @@ export const logIn = createAsyncThunk("/api/login", async (formData = {}) => {
   try {
     console.log(formData)
     const response = await fetch(
-      `http://192.168.204.122:5000/api/authentication/login`,
+      `${host}/api/authentication/login`,
       {
         method: "POST",
         headers: {
@@ -122,7 +125,7 @@ const AuthenticationSlice = createSlice({
 
         if (action.payload.needVerificationstatus) {
           state.userId = action.payload.id;
-         
+         console.log(action.payload)
         } else if (action.payload.id === null || !action.payload.status) {
           toast.error("Cannot SignUP!! An error occurred");
         }
@@ -141,7 +144,7 @@ const AuthenticationSlice = createSlice({
           localStorage.setItem("authToken" , action.payload.authToken);
           // dispatch(setUser(action.payload.user));
           state.isLoggedIn = true;
-          
+          state.userId = action.payload.user._id;
         }
         else if(action.payload.wrongOTP){
           toast.error("Wrong OTP")
@@ -169,7 +172,7 @@ const AuthenticationSlice = createSlice({
            // const dispatch = useDispatch();
             localStorage.setItem("authToken" , action.payload.authToken);
             state.isLoggedIn = true;
-           // dispatch(setUser(action.payload.user))
+            state.userId = action.payload.user._id;
            
          
         }

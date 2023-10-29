@@ -1,19 +1,25 @@
-import React from 'react'
-import {  useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { LOGOUT } from "../Store/Slices/AuthenticationSlice";
 import { removeUser } from "../Store/Slices/UserInfoSlice";
-import toast from "react-hot-toast"
+import toast from "react-hot-toast";
 export default function UserProfile() {
-    
   const dispatch = useDispatch();
   const navigate = useNavigate();
-   const handleLogout = async () => {
+  const handleLogout = async () => {
     await dispatch(LOGOUT());
     await dispatch(removeUser());
     navigate("/");
-    toast.success("Logout Successful")
+    toast.success("Logout Successful");
   };
+  useEffect(()=>{
+    if(!localStorage.getItem("authToken")){
+      navigate("/login");
+      return;
+    }
+    // eslint-disable-next-line
+  },[])
   const style = {
     minWidth: "70px",
     borderRadius: "10px",
@@ -26,12 +32,10 @@ export default function UserProfile() {
   };
   return (
     <>
-   
+      <button style={style} onClick={handleLogout}>
+        Log Out
+      </button>
       
-                <button style={style} onClick={handleLogout}>
-                  Log Out
-                </button>
-            
     </>
-  )
+  );
 }

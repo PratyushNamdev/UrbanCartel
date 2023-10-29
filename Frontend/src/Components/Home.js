@@ -4,6 +4,7 @@ import { Carousel } from "react-responsive-carousel";
 import Style from "../CSS/Home.module.css";
 import { Link } from "react-router-dom";
 import SearchProduct from "./SearchProduct";
+//import CartItem from "./CartItem";
 // import {  useDispatch  } from "react-redux";
 // import { stayLogin  } from "../Store/Slices/AuthenticationSlice";
 // import { setUser } from "../Store/Slices/UserInfoSlice";
@@ -22,8 +23,9 @@ export default function Home() {
   return (
     <div>
       <div className={Style.searchBox_container}>
-        <SearchProduct/>
+       <SearchProduct/>
       </div>
+      {/* <CartItem/> */}
       <div className={Style.container}>
         <div className={Style.sub_container}>
           <div className={Style.carousel_container}>

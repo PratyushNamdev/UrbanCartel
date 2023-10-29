@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import { LOGOUT } from "../Store/Slices/AuthenticationSlice";
-// import { removeUser } from "../Store/Slices/UserInfoSlice";
+import { CartIcon } from "../Helper/icon";
 
 export default function Navbar() {
   const style = {
@@ -67,22 +66,25 @@ export default function Navbar() {
           )}
           {isLoggedIn && (
             <ul className="navbar-nav ">
-              {/* <li className="nav-item">
-                <button style={style} onClick={handleLogout}>
-                  Log Out
-                </button>
-              </li> */}
+               <li className="nav-item">
+                <Link to="/cart">
+                  <div style={{ width: "35px" , margin:"2px" }}>
+                   <CartIcon/>
+                  </div>
+                </Link>
+              </li>
               <li className="nav-item">
                 <Link to="/userProfile">
-                  <div style={{ width: "30px", backgroundColor: "" }}>
+                  <div style={{ width: "35px",margin:"2px" }}>
                     <img
                       src="https://w7.pngwing.com/pngs/304/275/png-transparent-user-profile-computer-icons-profile-miscellaneous-logo-monochrome.png"
                       alt=""
                     />
-                    <figcaption style={{fontSize:"10px"}}>Profile</figcaption>
+                   
                   </div>
                 </Link>
               </li>
+             
             </ul>
           )}
         </div>

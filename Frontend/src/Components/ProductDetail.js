@@ -1,19 +1,31 @@
 import React, { useEffect , useState } from "react";
-import { useLocation , useParams } from "react-router-dom";
+import { useLocation , useParams , useNavigate} from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Style from "../CSS/ProductDetail.module.css";
-// import { stayLogin  } from "../Store/Slices/AuthenticationSlice";
+import { addToCart } from "../Store/Slices/CartSlice";
+import { useDispatch, useSelector } from "react-redux";
 // import { useDispatch } from "react-redux";
+// import { stayLogin  } from "../Store/Slices/AuthenticationSlice";
 export default function ProductDetail() {
+  const {userId} = useSelector((store)=>store.authentication)
+  const navigate = useNavigate();
   const location = useLocation();
   const { productId } = useParams();
   const [data, setData] = useState({});
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const host = process.env.REACT_APP_HOST;
+  const handleAddTOCart = () =>{
+    if(!localStorage.getItem("authToken")){
+      navigate("/login");
+      return;
+    }
+     dispatch(addToCart({title:data.title , price: data.selling_price_numeric , pId: data._id , userId , image : data.images[0] }))
+  }
 
   const getData = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/product/products?id=${productId}`);
+      const response = await fetch(`${host}/api/product/products?id=${productId}`);
       const responseData = await response.json();
       console.log(responseData)
       setData(responseData.data);
@@ -32,6 +44,7 @@ export default function ProductDetail() {
     }
     // eslint-disable-next-line
   }, [location.state, productId ]);
+
 
   if(!data || !data.title){
     return(
@@ -72,7 +85,7 @@ export default function ProductDetail() {
             <span style={{fontSize:"10px"}}>Inclusive of all taxes</span>
           </div>
           <div>
-            <button className={`${Style.btn} ${Style.primary_btn}`}>Add to Cart</button>
+            <button className={`${Style.btn} ${Style.primary_btn}`}  onClick={handleAddTOCart}>Add to Cart</button>
             <button className={Style.btn}>WishList</button>
           </div>
         </div>

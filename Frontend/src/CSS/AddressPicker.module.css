@@ -1,0 +1,172 @@
+/*---------------- for address picker ---------------- */
+.address_container {
+  padding: 1.5em;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.address_box {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5em 0;
+}
+.address_box input {
+ transform: scale(1.4);
+}
+.btn_div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap-reverse;
+}
+.address_details {
+  margin-left: 1em;
+}
+.list_item {
+  list-style: none;
+}
+.btn {
+  text-transform: uppercase;
+  letter-spacing: var(--spacing);
+  display: inline-block;
+  font-weight: 700;
+  transition: var(--transition);
+  font-size: 0.875rem;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.proccedBtn {
+  background: transparent;
+  padding: 0.5rem 1rem;
+  color: #5cdb5c;
+  border: 1px solid #5cdb5c;
+  margin-top: 2.25rem;
+  border-radius: var(--radius);
+  margin-left: 0.2em;
+}
+.proccedBtn:hover {
+  background-color: #6fd56f;
+  color: #000000;
+}
+.editBtn {
+  background: transparent;
+  padding: 0.5rem 1rem;
+  color: #3498db;
+  border: 1px solid #3498db;
+  margin-top: 1rem;
+  border-radius: var(--radius);
+}
+.editBtn:hover {
+  background-color: #3498db;
+  color: #000000;
+}
+.newAddressBtn {
+  width: 100%;
+  border: none;
+  text-align: left;
+  padding: 0.2em;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+}
+@media (min-width: 500px) {
+  .btn_div {
+    justify-content: space-between;
+  }
+}
+@media (min-width: 454px) {
+  .editBtn {
+    margin-top: 2.25rem;
+  }
+}
+/* --------------------------  --------------------------- */
+/* -------------------------for address Form ------------------------------- */
+.address_form_container {
+  padding: 1em;
+  /* background-image: url("https://res.cloudinary.com/dgxvtemh2/image/upload/v1698346244/Urban%20Cartel/arbyqst1gtsp1w5ujpcl.jpg");
+  background-attachment: fixed;
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center;
+  box-sizing: border-box; */
+  
+  margin: 0 auto;
+  
+  
+}
+.address_form{
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.form_element_box {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+}
+.form_element_box label {
+  margin: 0;
+  font-weight: bold;
+  font-size: 14px;
+}
+.form_element_box select {
+  font-weight: bold;
+}
+.form_element_box input,
+.form_element_box select {
+  padding: 0.2em;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  background-color: white;
+}
+.address_submit_btn {
+  display: flex;
+  justify-content: center;
+  border: none;
+  width: 90%;
+  background: transparent;
+  padding: 0.5rem 1rem;
+  color: #5cdb5c;
+  border: 1px solid #5cdb5c;
+  border-radius: var(--radius);
+ 
+  /* padding: 0.5em 0.2em; */
+  margin: 1em auto;
+}
+.checkbox {
+  flex-direction: row;
+  align-items: center;
+}
+.checkbox label {
+  font-weight: normal;
+  padding: 0.2em;
+}
+.checkbox input {
+  margin: 0 0.5em 0 0;
+  transform: scale(1.4);
+}
+@media (min-width: 600px) {
+  .address_form_container{
+    height: 95dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   
+  }
+  .address_form {
+    display: grid;
+    background-color: rgba(
+      255,
+      255,
+      255,
+      0.7
+    ); 
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+  }
+  .address_form input{
+    background-color: transparent;
+  }
+}

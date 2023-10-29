@@ -11,7 +11,7 @@ export default function VerifyOTP() {
     const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
  const handleSubmit = async ()=>{
-  try{const verifyOTPResponse = await dispatch(verifyOTP({otp , userId }));
+  try{const verifyOTPResponse = await dispatch(verifyOTP({otp , userId , dispatch}));
   if(verifyOTPResponse.payload.authToken){
     toast.success("SignUp Successfull !")
     navigate("/");

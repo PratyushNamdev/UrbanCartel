@@ -77,7 +77,7 @@ router.post(
         sendOTPverificationEmail(user._id, user.email, res);
       });
     } catch (err) {
-      res.status(400).send({ error: "Some Errored Occured" });
+      res.status(400).send({ error: "Some Error Occured" });
     }
   }
 );

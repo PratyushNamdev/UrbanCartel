@@ -5,12 +5,14 @@ import Home from "./Components/Home";
 import ProductCatalog from "./Components/ProductCatalog";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductDetail from "./Components/ProductDetail";
-import SearchProduct from "./Components/SearchProduct";
 import {Toaster} from 'react-hot-toast'
 import SignUp from "./Components/SignUp";
 import VerifyOTP from "./Components/VerifyOTP";
 import Login from "./Components/Login";
 import UserProfile from "./Components/UserProfile";
+import CartContainer from "./Components/CartContainer";
+import AddressPicker from "./Components/AddressPicker";
+import AddressForm from "./Components/AddressForm";
 function App() {
  
   return (
@@ -19,6 +21,7 @@ function App() {
         <Navbar />
         <Toaster/>
         <Routes>
+          
           <Route path="/" element={<Home />} />
           <Route path="/productCatalog/search" element={<ProductCatalog/>} />
           <Route path="/productCatalog/clothing&accessories" element={<ProductCatalog category="category" value="Clothing and Accessories"/>} />
@@ -35,11 +38,13 @@ function App() {
           <Route path="/productCatalog/sleepwear" element={<ProductCatalog category="sub_category" value="Sleepwear"/>} />
           <Route path="/productCatalog/jeans" element={<ProductCatalog category="title" value="Jeans"/>} />
           <Route path="/productDescription/:productId" element={<ProductDetail/>}/>
-          <Route path="/search" element={<SearchProduct/>}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/verifyOTP" element={<VerifyOTP/>}/>
           <Route path="/userProfile" element={<UserProfile/>}/>
+          <Route path="/cart" element={<CartContainer/>}/>
+          <Route path="/selectAddress" element={<AddressPicker/>}/>
+          <Route path="/selectAddress/addressForm" element={<AddressForm/>}/>
           
         </Routes>
       </BrowserRouter>

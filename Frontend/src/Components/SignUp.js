@@ -26,7 +26,7 @@ export default function SignUp() {
     e.preventDefault();
     try {
       // Dispatch the signUp action with formData
-      const signupResponse = await dispatch(signUp({formData , dispatch}));
+      const signupResponse = await dispatch(signUp(formData));
 
       // After successful sign-up, navigate to a different route
       if (signupResponse.payload.needVerificationstatus) {
