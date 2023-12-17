@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 import { setUser } from "./UserInfoSlice";
-// import { useDispatch } from "react-redux";
-const host = process.env.REACT_APP_HOST;
+import { setTotalItems } from "./CartSlice";
+import {host} from "../../Helper/host";
+// const host = process.env.REACT_APP_HOST;
 const initialState = {
   userId: "",
   isLoggedIn: false,
@@ -17,6 +18,7 @@ export const signUp = createAsyncThunk("/api/signUp", async (formData = {}) => {
       {
         method: "POST",
         headers: {
+          'ngrok-skip-browser-warning': 'true',
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
@@ -26,7 +28,7 @@ export const signUp = createAsyncThunk("/api/signUp", async (formData = {}) => {
    
 
     const data = await response.json();
-   console.log(data)
+     console.log("response data" +data)
     return data;
   } catch (e) {
     toast.error("An Error Occurred");
@@ -38,26 +40,25 @@ export const verifyOTP = createAsyncThunk(
   "/api/verifyOTP",
   async (otpData = {}) => {
     try {
+      console.log(otpData)
       const response = await fetch(
         `${host}/api/authentication/verifyOTP`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': 'true'
           },
           body: JSON.stringify(otpData),
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Server responded with an error");
-      }
 
       const data = await response.json();
+      console.log(data)
+      toast.success("daf" + data.authToken)
       if(data.authToken){
-   
-        //   console.log("user" + data.payload.user)
-        otpData.dispatch(setUser(data.user))
+          otpData.dispatch(setUser(data.user))
          }
       return data;
     } catch (e) {
@@ -75,6 +76,7 @@ export const logIn = createAsyncThunk("/api/login", async (formData = {}) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'ngrok-skip-browser-warning': 'true'
         },
         body: JSON.stringify(formData.formData),
       }
@@ -85,11 +87,9 @@ export const logIn = createAsyncThunk("/api/login", async (formData = {}) => {
     }
 
     const data = await response.json();
-    console.log(data.user)
     
     if(data.authToken){
-   
-    //   console.log("user" + data.payload.user)
+   formData.dispatch(setTotalItems(data.totalItems))
     formData.dispatch(setUser(data.user))
      }
     return data;
@@ -105,14 +105,10 @@ const AuthenticationSlice = createSlice({
   reducers: {
     LOGOUT:(state)=>{
       state.isLoggedIn = false;
+      state.userId = "";
       localStorage.removeItem("authToken");
      
     },
-    stayLogin:(state)=>{
-      state.isLoggedIn = true;
-      // state.user = JSON.parse( localStorage.getItem("user"));
-     // console.log(JSON.parse( localStorage.getItem("user")));
-    }
     
   },
   extraReducers: (builder) => {
@@ -125,8 +121,12 @@ const AuthenticationSlice = createSlice({
 
         if (action.payload.needVerificationstatus) {
           state.userId = action.payload.id;
-         console.log(action.payload)
-        } else if (action.payload.id === null || !action.payload.status) {
+        
+        }
+        else if(action.payload.error){
+          toast.error("error message"+action.payload.message)
+        }
+         else if (action.payload.id === null || !action.payload.status) {
           toast.error("Cannot SignUP!! An error occurred");
         }
       })
@@ -138,11 +138,11 @@ const AuthenticationSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(verifyOTP.fulfilled, (state, action) => {
-       // const dispatch = useDispatch();
+       
         state.isLoading = false;
         if(action.payload.authToken){
           localStorage.setItem("authToken" , action.payload.authToken);
-          // dispatch(setUser(action.payload.user));
+          console.log(action)
           state.isLoggedIn = true;
           state.userId = action.payload.user._id;
         }
@@ -169,11 +169,11 @@ const AuthenticationSlice = createSlice({
          
         } 
         else if (action.payload.authToken) {
-           // const dispatch = useDispatch();
+            
             localStorage.setItem("authToken" , action.payload.authToken);
             state.isLoggedIn = true;
             state.userId = action.payload.user._id;
-           
+            
          
         }
         else{

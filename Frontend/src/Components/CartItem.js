@@ -15,10 +15,10 @@ export default function CartItem(props) {
       <img style={{objectFit:"contain" , cursor:'pointer'}} src={image} alt={title}  onClick={()=>{
       navigate(`/productDescription/${pId}`);
     }}/>
-      <div  onClick={()=>{
+      <div  >
+        <h4 onClick={()=>{
       navigate(`/productDescription/${pId}`);
-    }} style={{cursor:'pointer'}}>
-        <h4 >{title}</h4>
+    }} style={{cursor:'pointer'}}>{title}</h4>
         <h4 className={Style.itemprice}>₹{price}</h4>
         {/* remove button */}
         <button className={Style.removebtn} onClick={()=>{

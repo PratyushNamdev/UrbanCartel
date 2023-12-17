@@ -22,7 +22,7 @@ router.post(
     body("areaAddress").isLength({ min: 2 }).withMessage("Enter valid address"),
     body("pincode").isLength({ min: 6 }).withMessage("enter valid Pincode"),
     body("townOrCity").isLength({ min: 3 }).withMessage("Enter valid address"),
-    body("state").isLength({ min: 2 }).withMessage("Enter valid address"),
+    body("state").isLength({ min: 2 }).withMessage("Select the state "),
   ],
   async (req, res) => {
     const errors = validationResult(req);

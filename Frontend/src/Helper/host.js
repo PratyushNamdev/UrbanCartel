@@ -1,0 +1,1 @@
+export const host = "https://6fa4-2409-4043-2b84-4590-d16f-2e9e-db0-4ab6.ngrok-free.app";

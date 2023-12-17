@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Style from "../CSS/Signup.module.css";
 import { signUp } from "../Store/Slices/AuthenticationSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom"
 import toast from "react-hot-toast";
+import Loading from "./Loading";
 export default function SignUp() {
+  const {isLoading} = useSelector(store => store.authentication)
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -14,7 +17,7 @@ export default function SignUp() {
     number: "",
     password: "",
   });
-
+ 
   useEffect(()=>{
 
     if(localStorage.getItem("authToken")){
@@ -27,13 +30,14 @@ export default function SignUp() {
     try {
       // Dispatch the signUp action with formData
       const signupResponse = await dispatch(signUp(formData));
-
+     console.log(signupResponse)
       // After successful sign-up, navigate to a different route
       if (signupResponse.payload.needVerificationstatus) {
           navigate("/verifyOTP")
       }
     } catch (error) {
       // Handle sign-up errors
+      console.log("Cannot Sign Up!! An error occurred")
       toast.error("Cannot Sign Up!! An error occurred");
     }
   };
@@ -48,11 +52,9 @@ export default function SignUp() {
   };
 
   return (
+    <>
+    {isLoading &&  <Loading/>}
     <section className={Style.container}>
-      {/* <div className={Style.img_container}>
-                <img src="https://res.cloudinary.com/dgxvtemh2/image/upload/v1696160481/Urban%20Cartel/njbr3bpjzdrzwt20lhhc.jpg" alt="imgs" />
-            </div> */}
-
       <div className={Style.signup_Container}>
         <form onSubmit={handleSignup} className={Style.form}>
           <div>
@@ -115,5 +117,6 @@ export default function SignUp() {
         </form>
       </div>
     </section>
+    </>
   );
 }

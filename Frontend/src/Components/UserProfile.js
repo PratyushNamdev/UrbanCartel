@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { LOGOUT } from "../Store/Slices/AuthenticationSlice";
 import { removeUser } from "../Store/Slices/UserInfoSlice";
+import { emptyCart } from "../Store/Slices/CartSlice";
+import { clearAddress } from "../Store/Slices/AddressSlice";
 import toast from "react-hot-toast";
 export default function UserProfile() {
   const dispatch = useDispatch();
@@ -10,7 +12,10 @@ export default function UserProfile() {
   const handleLogout = async () => {
     await dispatch(LOGOUT());
     await dispatch(removeUser());
+    await dispatch(emptyCart());
+    await dispatch(clearAddress());
     navigate("/");
+    
     toast.success("Logout Successful");
   };
   useEffect(()=>{
@@ -23,7 +28,7 @@ export default function UserProfile() {
   const style = {
     minWidth: "70px",
     borderRadius: "10px",
-    margin: ".2em ",
+    margin: ".2em ", 
     backgroundColor: "#FF0000",
     border: "0",
     outline: "1px solid rgb(0, 0, 0)",

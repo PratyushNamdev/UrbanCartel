@@ -3,11 +3,11 @@ import CartItem from './CartItem';
 import Style from "../CSS/CartContainer.module.css"
 import {useDispatch , useSelector} from "react-redux"
 import { getCartItems , calculateTotals , clearCart} from '../Store/Slices/CartSlice';
-import Loading from './Loading';
+// import Loading from './Loading';
 import { useNavigate } from 'react-router-dom';
 
 export default function CartContainer() {
-  const { cartItems, totalItems, totalPrice , isLoading } = useSelector((store) => store.cart);
+  const { cartItems, totalItems, totalPrice  } = useSelector((store) => store.cart);
   const { userId , isLoggedIn } = useSelector((store) => store.authentication);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function CartContainer() {
       navigate("/login");
       return;
     }
-   dispatch(getCartItems()); 
+   dispatch(getCartItems(dispatch)); 
    // eslint-disable-next-line
   }, []);
   useEffect(()=>{
@@ -26,11 +26,7 @@ export default function CartContainer() {
    // eslint-disable-next-line
   }, [cartItems]);
 
-  if (isLoading) {
-        return (
-          <Loading/>
-          );
-        }
+
         if (totalItems < 1) {
           return (
             <section className={Style.cart}>
@@ -53,7 +49,7 @@ export default function CartContainer() {
           </header>
           {/* cart items */}
           <div>
-            {cartItems.map((item) => {
+            {cartItems?.map((item) => {
               return <CartItem key={item.pId} data={item} />;
             })}
           </div>

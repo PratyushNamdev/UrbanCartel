@@ -4,31 +4,41 @@ import { Carousel } from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Style from "../CSS/ProductDetail.module.css";
 import { addToCart } from "../Store/Slices/CartSlice";
-import { useDispatch, useSelector } from "react-redux";
+// import {host} from "../Helper/host";
+import {api} from "../Services/api";
+// import Loading from "./Loading";
+import { setLoadingProgress } from "../Store/Slices/LoadingBarSlice";
 // import { useDispatch } from "react-redux";
 // import { stayLogin  } from "../Store/Slices/AuthenticationSlice";
+import { useDispatch, useSelector } from "react-redux";
 export default function ProductDetail() {
-  const {userId} = useSelector((store)=>store.authentication)
+  const {userId } = useSelector((store)=>store.authentication)
+  // const {isLoading } = useSelector((store)=>store.cart)
   const navigate = useNavigate();
   const location = useLocation();
   const { productId } = useParams();
   const [data, setData] = useState({});
   const dispatch = useDispatch();
-  const host = process.env.REACT_APP_HOST;
+  // const host = process.env.REACT_APP_HOST;
   const handleAddTOCart = () =>{
     if(!localStorage.getItem("authToken")){
       navigate("/login");
       return;
     }
-     dispatch(addToCart({title:data.title , price: data.selling_price_numeric , pId: data._id , userId , image : data.images[0] }))
+   
+     dispatch(addToCart({title:data.title , price: data.selling_price_numeric , pId: data._id , userId , image : data.images[0] , dispatch }))
   }
 
   const getData = async () => {
     try {
-      const response = await fetch(`${host}/api/product/products?id=${productId}`);
-      const responseData = await response.json();
+      dispatch(setLoadingProgress(70))
+      // const response = await fetch(`${host}/api/product/products?id=${productId}`);
+      // const responseData = await response.json();
+      const responseData =  await api.get(`/api/product/products?id=${productId}`)
       console.log(responseData)
       setData(responseData.data);
+      dispatch(setLoadingProgress(100))
+      
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -48,11 +58,12 @@ export default function ProductDetail() {
 
   if(!data || !data.title){
     return(
-      <h1>Loading</h1>
+     <></>
     )
   }
   return (
 <>
+
     <section>
       <div className={Style.container}>
         <div className={Style.carousel_container}>

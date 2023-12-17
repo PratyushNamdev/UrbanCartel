@@ -12,7 +12,7 @@ export default function SearchProduct() {
     }
  }
   return (
-    <nav className="navbar navbar-light ">
+    <nav className=" navbar-light ">
     <form className="form-inline" onSubmit={handleSubmit}>
       <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value={query} onChange={(e)=>{
         setQuery(e.target.value)
@@ -20,7 +20,7 @@ export default function SearchProduct() {
        
       }}/>
       <button className="btn btn-outline-success my-2 my-sm-0" style={{
-        backgroundColor:"#ff9d00",
+        backgroundColor:"rgb(253, 216, 53)",
         color:"black",
         border:"1px solid black",
        

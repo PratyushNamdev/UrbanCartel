@@ -5,8 +5,10 @@ import { getAddress , addAddress } from "../Store/Slices/AddressSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import Style from "../CSS/AddressPicker.module.css";
 import toast from "react-hot-toast";
+import { setLoadingProgress } from "../Store/Slices/LoadingBarSlice";
 export default function AddressPicker() {
-  const { addresses, isLoading } = useSelector((store) => store.address);
+  // const host = process.env.REACT_APP_HOST;
+  const { addresses , isLoading } = useSelector((store) => store.address);
   const { userId } = useSelector((state) => state.authentication);
   const [selectedAddress, setSelectedAddress] = useState({
     name:"",
@@ -29,11 +31,13 @@ export default function AddressPicker() {
     if (!location.state?.entry) {
       return navigate("/");
     }
-    dispatch(getAddress());
+    dispatch(getAddress( dispatch));
     // eslint-disable-next-line
   }, []);
+//for address picker
   const handleAddressSelect = (address) => {
     setSelectedAddress(address);
+    
     setSelectStatus(true);
     const windowHeight = window.innerHeight;
     const bodyHeight = document.body.scrollHeight;
@@ -42,9 +46,15 @@ export default function AddressPicker() {
     window.scrollTo(0, bodyHeight - windowHeight);
    
   };
+const handlePickerSubmit = ()=>{
+  dispatch(selectAddress(selectedAddress));
+  navigate("/checkout" , {state:{entry:true}}) 
+}
+
+
 
   //for address form 
-  const handleChange = (e) => {
+  const handleFormChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
     setSelectedAddress({
@@ -54,29 +64,36 @@ export default function AddressPicker() {
     
   };
 
-  const handleSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    if(selectedAddress.state === "" || selectAddress.state === null){
+      return toast.error("Select State");
+    }
     if(selectedAddress.saveAddress !== true){
+      dispatch(setLoadingProgress(100))
       dispatch(selectAddress(selectedAddress));
-      return ;
+      navigate("/checkout" , {state:{entry:true}})
     }
-    const res = await dispatch(addAddress(selectedAddress));
-    if(res.payload.address){
-      toast.success("Address selected");
-
-    }
-    else{
-      toast.error("eroro")
+    const res = await dispatch(addAddress({selectedAddress , dispatch}));
+    
+    if(res.payload.address){  
+      dispatch(selectAddress(selectedAddress));
+      navigate("/checkout" , {state:{entry:true}})
     }
    
   };
-  if (isLoading) {
-    return <div>loading</div>;
-  }
+
+
+  
+
+ if(isLoading){
+  return (<></>);
+ }
   if (addresses.length <= 0) {
+   
     return (
       <section className={Style.address_form_container}>
-        <form onSubmit={handleSubmit} className={Style.address_form}>
+        <form onSubmit={handleFormSubmit} className={Style.address_form}>
         <h3 style={{ letterSpacing: "0" , textAlign:'center' , gridColumn:"1/span 2" , margin:"1em 0"}}>Enter delivery address</h3>
       <div className={Style.form_element_box}>
         <label htmlFor="name">Full Name</label>
@@ -85,7 +102,7 @@ export default function AddressPicker() {
           name="name"
           id="name"
           value={selectedAddress.name}
-          onChange={handleChange}
+          onChange={handleFormChange}
           required
           min={4}
         />
@@ -97,7 +114,7 @@ export default function AddressPicker() {
           name="mobileNumber"
           id="mobileNumber"
           value={selectedAddress.mobileNumber}
-          onChange={handleChange}
+          onChange={handleFormChange}
           placeholder="May be used to assist delivery"
           required
           min={10}
@@ -110,7 +127,7 @@ export default function AddressPicker() {
           name="mainAddress"
           id="mainAddress"
           value={selectedAddress.mainAddress}
-          onChange={handleChange}
+          onChange={handleFormChange}
           required
           min={5}
         />
@@ -122,7 +139,7 @@ export default function AddressPicker() {
           name="areaAddress"
           id="areaAddress"
           value={selectedAddress.areaAddress}
-          onChange={handleChange}
+          onChange={handleFormChange}
           required
           min={6}
         />
@@ -134,7 +151,7 @@ export default function AddressPicker() {
           name="landmark"
           id="landmark"
           value={selectedAddress.landmark}
-          onChange={handleChange}
+          onChange={handleFormChange}
         />
       </div>
       <div className={Style.form_element_box}>
@@ -144,7 +161,7 @@ export default function AddressPicker() {
           name="pincode"
           id="pincode"
           value={selectedAddress.pincode}
-          onChange={handleChange}
+          onChange={handleFormChange}
           required
           min={6}
         />
@@ -156,7 +173,7 @@ export default function AddressPicker() {
           name="townOrCity"
           id="townOrCity"
           value={selectedAddress.townOrCity}
-          onChange={handleChange}
+          onChange={handleFormChange}
           required
           min={3}
         />
@@ -167,10 +184,10 @@ export default function AddressPicker() {
           name="state"
           id="state"
           value={selectedAddress.state}
-          onChange={handleChange}
+          onChange={handleFormChange}
           required
         >
-           <option value="Select State">Select</option>
+           <option value={null} >Select</option>
     <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
     <option value="Andhra Pradesh">Andhra Pradesh</option>
     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -217,7 +234,7 @@ export default function AddressPicker() {
             name="saveAddress"
             id="saveAddress"
             checked={selectedAddress.saveAddress || false}
-            onChange={handleChange}
+            onChange={handleFormChange}
           />
           <label htmlFor="saveAddress">Save this address for future use</label>
         </div>
@@ -261,38 +278,12 @@ export default function AddressPicker() {
           <button className={`${Style.btn} ${Style.editBtn}`} onClick={()=>{navigate("/selectAddress/addressForm" , {state:{entry:true ,address : selectedAddress}})}}>
             Edit Address
           </button>
-          <button className={`${Style.btn} ${Style.proccedBtn}`} >
+          <button className={`${Style.btn} ${Style.proccedBtn}`} onClick={handlePickerSubmit} >
             Use this address
           </button>
         </div>
       )}
     </div>
-    //   <div>
-    //   <h3>Select an Address</h3>
-    //   <ul>
-    //     {addresses.map((address) => (
-    //       <li key={address.id}>
-    //         <label>
-    //           <input
-    //             type="radio"
-    //             name="selectedAddress"
-    //             value={address.id}
-    //             checked={selectedAddress === address}
-    //             onChange={() => handleAddressSelect(address)}
-    //           />
-    //           {address.name}, {address.mainAddress}, {address.areaAddress}, {address.state}, {address.pincode}
-    //         </label>
-    //       </li>
-    //     ))}
-    //   </ul>
-    //   {selectedAddress && (
-    //     <div>
-    //       <h4>Selected Address</h4>
-    //       <p>
-    //         {selectedAddress.name}, {selectedAddress.mainAddress}, {selectedAddress.areaAddress}, {selectedAddress.state}, {selectedAddress.pincode}
-    //       </p>
-    //     </div>
-    //   )}
-    // </div>
+  
   );
 }

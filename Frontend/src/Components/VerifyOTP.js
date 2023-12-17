@@ -5,14 +5,16 @@ import { verifyOTP } from "../Store/Slices/AuthenticationSlice";
 import { useDispatch , useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import Loading from "./Loading";
 export default function VerifyOTP() {
-    const {userId} = useSelector((store)=>store.authentication)
+    const {userId , isLoading} = useSelector((store)=>store.authentication)
     const navigate = useNavigate();
     const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
  const handleSubmit = async ()=>{
   try{const verifyOTPResponse = await dispatch(verifyOTP({otp , userId , dispatch}));
   if(verifyOTPResponse.payload.authToken){
+    console.log(verifyOTPResponse)
     toast.success("SignUp Successfull !")
     navigate("/");
   }
@@ -35,6 +37,7 @@ export default function VerifyOTP() {
   
   return (
     <>
+    {isLoading && <Loading/>}
   
     <div className={Style.otpContainer}>
     <div className={Style.otpdiv}><img src="https://res.cloudinary.com/dgxvtemh2/image/upload/v1696196075/Urban%20Cartel/VerifyOTP_cq5qfs.png" alt="enter Otp"/></div>

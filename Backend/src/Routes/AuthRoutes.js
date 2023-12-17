@@ -5,16 +5,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
 const otpModel = require("../Models/OtpVerifications");
-const nodemailer = require("nodemailer");
-const secretKey = process.env.JJ_J;
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  auth: {
-    user: "pratyushnamdev140@gmail.com",
-    pass: "qwrawyscpgganeod",
-  },
-});
+const {transporter} = require("../Services/Nodemailer_Transporter");
+const secretKey = process.env.JWT_KEY;
+const Cart = require("../Models/Cart_Model");
+
 const sendOTPverificationEmail = async (_id, email, res) => {
   try {
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
@@ -58,11 +52,13 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    try {
-      console.log(req.body)
+     try {
+      console.log(req.body);
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        return res.status(401).send({ error: "Email already exists" });
+        return res
+          .status(401)
+          .send({ error: true, message: "E-mail already exist" });
       }
       const salt = await bcrypt.genSalt(10);
       //hashing the password
@@ -89,7 +85,7 @@ router.post("/verifyOTP", async (req, res) => {
     }
 
     let otpRecord = await otpModel.findOne({ userId });
-   
+
     if (!otpRecord) {
       return res.json({
         error: "Email is already verified or not exist try by singin up again",
@@ -109,25 +105,27 @@ router.post("/verifyOTP", async (req, res) => {
     }
 
     if (!forPasswordReset) {
-        await otpModel.deleteMany({ userId });
-       await User.updateOne({ _id: userId }, { verified: true })
-      const user = await User.findById(userId)
+      await otpModel.deleteMany({ userId });
+      await User.updateOne({ _id: userId }, { verified: true });
+      const user = await User.findById(userId);
       const data = {
         user: {
           id: user._id,
         },
       };
-      console.log(secretKey)
-      let authToken = jwt.sign(data,secretKey);
-     return res.json({ authToken, user , needVerificationstatus:false});
+
+      let authToken = jwt.sign(data, secretKey);
+      return res.json({
+        authToken,
+        user,
+        needVerificationstatus: false,
+      });
     }
 
     if (forPasswordReset) {
       await otpModel.deleteMany({ userId });
-     return res.json({ resetPassword: true });
+      return res.json({ resetPassword: true });
     }
-
-    
   } catch (e) {
     res.json({ status: false });
   }
@@ -148,30 +146,34 @@ router.post(
       if (!user) {
         return res.send({ signUpRequired: true });
       }
-      if(!user.verified){
-     
-        await otpModel.deleteMany({userId : user._id})
-        return sendOTPverificationEmail(user._id , user.email , res);
-        
+      if (!user.verified) {
+        await otpModel.deleteMany({ userId: user._id });
+        return sendOTPverificationEmail(user._id, user.email, res);
       }
       //checking the password
       let check = await bcrypt.compare(password, user.password);
       if (!check) {
-        return res.send({ wrongPassword :true });
+        return res.send({ wrongPassword: true });
       }
       const data = {
         user: {
           id: user.id,
         },
       };
-      let authToken = jwt.sign(data,secretKey);
-      res.json({ authToken, user , needVerificationstatus:false});
+      const cart = await Cart.find({ userId: user._id });
+      let totalItems = 0;
+      if (cart.length > 0) {
+        (await cart).forEach((item) => {
+          totalItems += item.amount;
+        });
+      }
+      let authToken = jwt.sign(data, secretKey);
+      res.json({ authToken, user, totalItems, needVerificationstatus: false });
     } catch (err) {
       console.log(err);
       res.status(500).send({ error: "Some Errored Occured" });
     }
   }
 );
-
 
 module.exports = router;

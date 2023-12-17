@@ -37,7 +37,7 @@ const Products = require("../Models/Products_Model");
 
 
 router.get("/products", async (req, res) => {
-  try {
+   try {
     let data, totalDocs;
     const { sub_category, category, title, sort , id } = req.query;
 

@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
-const host = process.env.REACT_APP_HOST;
+import { setLoadingProgress } from "./LoadingBarSlice";
+// const host = process.env.REACT_APP_HOST;
+import {host} from "../../Helper/host";
 const initialState = {
   addresses: [],
   selectedAddress:{},
@@ -8,52 +10,61 @@ const initialState = {
 };
 export const getAddress = createAsyncThunk(
   "/address/fetchAddress",
-  async () => {
+  async (dispatch) => {
+    dispatch(setLoadingProgress(70))
     try {
       const response = await fetch(`${host}/api/address/fetchAddress`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           authToken: localStorage.getItem("authToken"),
+          'ngrok-skip-browser-warning': 'true'
         },
       });
       const data = await response.json();
+      dispatch(setLoadingProgress(100))
       return data;
     } catch (e) {
       toast.error("Something went wrong");
     }
   }
 );
-export const addAddress = createAsyncThunk("/address/addNewAddress" , async(address = {})=>{
-
-  try{
-    const response = await fetch(`${host}/api/address/addNewAddress` , {
-      method:"POST",
-      headers:{
-        "Content-Type": "application/json",
-        authToken: localStorage.getItem("authToken"),
-      },
-      body: JSON.stringify(address)
-    });
+export const addAddress = createAsyncThunk("/address/addNewAddress" , async(address = {} )=>{
+  console.log(address)
+   address.dispatch(setLoadingProgress(70))
+   try{
+     const response = await fetch(`${host}/api/address/addNewAddress` , {
+       method:"POST",
+       headers:{
+         "Content-Type": "application/json",
+         authToken: localStorage.getItem("authToken"),
+         'ngrok-skip-browser-warning': 'true'
+        },
+        body: JSON.stringify(address.selectedAddress)
+      });
     const data = await response.json();
-    console.log(data)
+    
+    address.dispatch(setLoadingProgress(100))
     return data;
   }catch(e){
     toast.error("something went wrong");
   }
 })
 export const updateAddress = createAsyncThunk("/address/updateAddress" , async(address = {})=>{
+  address.dispatch(setLoadingProgress(70))
   try{
     const response = await fetch(`${host}/api/address/updateAddress/${address.id}` , {
       method:"PUT",
       headers:{
         "Content-Type": "application/json",
         authToken: localStorage.getItem("authToken"),
+        'ngrok-skip-browser-warning': 'true'
       },
       body: JSON.stringify(address.obj)
     });
     const data = await response.json();
-    console.log(data)
+    
+    address.dispatch(setLoadingProgress(100))
     return data;
   }catch(e){
     toast.error("something went wrong");
@@ -68,6 +79,11 @@ const AddressSlice = createSlice({
       
         state.selectedAddress = action.payload;
       
+    },
+    clearAddress:(state)=>{
+      state.addresses = [];
+      state.selectedAddress = {};
+      state.address = []
     }
   },
   extraReducers: (builder) => {
@@ -76,10 +92,10 @@ const AddressSlice = createSlice({
     })
     .addCase(getAddress.fulfilled , (state , action)=>{
         state.isLoading = false;
-        if(action.payload.error){
-           return toast.error("Someting went wrong");
+        if(action.payload?.error){
+            toast.error("Someting went wrong");
         }
-        if(action.payload.address){
+        if(action.payload?.address){
             state.addresses = action.payload.address;
            
         }
@@ -96,7 +112,13 @@ const AddressSlice = createSlice({
     .addCase(addAddress.fulfilled , (state , action)=>{
         state.isLoading = false;
         if(action.payload.error){
-           return toast.error(action.payload.message);
+           if(Array.isArray(action.payload.message)){
+             toast.error(action.payload.message[0].msg);
+            }
+            else{
+             toast.error(action.payload.message);
+
+           }
         }
         if(action.payload.address){
             state.selectedAddress = action.payload.address;
@@ -114,7 +136,7 @@ const AddressSlice = createSlice({
     .addCase(updateAddress.fulfilled , (state , action)=>{
         state.isLoading = false;
         if(action.payload.error){
-           return toast.error(action.payload.message);
+            toast.error(action.payload.message);
         }
         if(action.payload.success){
           state.selectedAddress = action.payload.address;
@@ -127,5 +149,5 @@ const AddressSlice = createSlice({
     })
   },
 });
-export const {selectAddress} = AddressSlice.actions;
+export const {selectAddress , clearAddress} = AddressSlice.actions;
 export default AddressSlice.reducer;

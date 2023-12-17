@@ -1,26 +1,32 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
-
+import {host} from "../../Helper/host";
 const initialState = {
   productData: [],
   totalData: 0,
   length:null
 };
-const host = process.env.REACT_APP_HOST;
-console.log(host)
+// const host = process.env.REACT_APP_HOST;
+// console.log(host)
 export const getProducts = createAsyncThunk(
   "/products/getProducts",
   async (obj = {}) => {
     // let url = `http://localhost:5000/api/product/products?${obj.key}=${obj.value}`;
 
     try{
-      const response = await fetch(`${host}/api/product/products?${obj.key}=${obj.value}&sort=${obj.sort}`);
-      console.log(host)
+      const response = await fetch(`${host}/api/product/products?${obj.key}=${obj.value}&sort=${obj.sort}` , {
+        headers:{
+          'ngrok-skip-browser-warning': 'true'
+        }
+      });
+     console.log(response)
       const data = await response.json();
+      console.log(data)
       return data
 
     }catch(e){
       toast.error("Server Error");
+      console.log(e)
     }
     // try {
     //   return await fetch(
@@ -52,6 +58,7 @@ const productSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getProducts.fulfilled, (state, action) => {
+        console.log(action)
         state.isLoading = false;
         state.productData = action.payload?.data;
         state.totalData = action.payload?.totalDocs;

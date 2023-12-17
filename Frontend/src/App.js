@@ -13,13 +13,28 @@ import UserProfile from "./Components/UserProfile";
 import CartContainer from "./Components/CartContainer";
 import AddressPicker from "./Components/AddressPicker";
 import AddressForm from "./Components/AddressForm";
+import LoadingBar from 'react-top-loading-bar'
+import { useSelector , useDispatch } from "react-redux";
+import { setLoadingProgress } from "./Store/Slices/LoadingBarSlice";
+import OrderPlaced from "./Components/OrderPlaced";
+import CheckoutPage from "./Components/CheckoutPage";
+
+
 function App() {
- 
+  const dispatch = useDispatch();
+ const {loadingProgress} = useSelector((store)=>store.loadingBar)
   return (
     <div>
       <BrowserRouter>
         <Navbar />
         <Toaster/>
+        <LoadingBar
+        color='#f11946'
+        progress={loadingProgress}
+        onLoaderFinished={() => dispatch(setLoadingProgress(0))}
+        shadow={true}
+        height={3}
+      />
         <Routes>
           
           <Route path="/" element={<Home />} />
@@ -45,6 +60,9 @@ function App() {
           <Route path="/cart" element={<CartContainer/>}/>
           <Route path="/selectAddress" element={<AddressPicker/>}/>
           <Route path="/selectAddress/addressForm" element={<AddressForm/>}/>
+          <Route path="/success" element={<OrderPlaced/>}/>
+          <Route path="/checkout" element={<CheckoutPage/>}/>
+        
           
         </Routes>
       </BrowserRouter>

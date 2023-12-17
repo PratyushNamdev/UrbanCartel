@@ -3,7 +3,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Style from "../CSS/Home.module.css";
 import { Link } from "react-router-dom";
-import SearchProduct from "./SearchProduct";
+// import SearchProduct from "./SearchProduct";
+import Footer from "./Footer";
 //import CartItem from "./CartItem";
 // import {  useDispatch  } from "react-redux";
 // import { stayLogin  } from "../Store/Slices/AuthenticationSlice";
@@ -21,10 +22,11 @@ export default function Home() {
     // eslint-disable-next-line
   },[])
   return (
-    <div>
-      <div className={Style.searchBox_container}>
+    <>
+      {/* <div className={Style.searchBox_container}>
        <SearchProduct/>
-      </div>
+       
+      </div> */}
       {/* <CartItem/> */}
       <div className={Style.container}>
         <div className={Style.sub_container}>
@@ -60,7 +62,7 @@ export default function Home() {
           </div>
           <div className={Style.category_container_I}>
               <div className={Style.img_box_I}>
-            <Link to="/productCatalog/shirts">
+            <Link  to="/productCatalog/shirts">
                 <img
                   src="https://res.cloudinary.com/dgxvtemh2/image/upload/v1695661194/Urban%20Cartel/shirt_uhjs6n.jpg"
                   alt="Shirts"
@@ -155,6 +157,9 @@ export default function Home() {
             </div>
         </div>
       </div>
-    </div>
+        <Footer/>
+       
+      
+    </>
   );
 }

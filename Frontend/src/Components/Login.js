@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Style from "../CSS/Signup.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { logIn } from "../Store/Slices/AuthenticationSlice";
+import Loading from "./Loading";
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {isLoading} = useSelector(store => store.authentication)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -50,6 +52,8 @@ export default function Login() {
     });
   };
   return (
+    <>
+      {isLoading && <Loading/>}
     <section className={Style.container}>
       <div className={Style.signup_Container}>
         <form onSubmit={handleLogin} className={Style.form}>
@@ -83,5 +87,6 @@ export default function Login() {
         </form>
       </div>
     </section>
+    </>
   );
 }

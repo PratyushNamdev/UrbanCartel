@@ -6,18 +6,20 @@ import AuthenticationSlice from "./Slices/AuthenticationSlice";
 import UserInfoSlice from "./Slices/UserInfoSlice";
 import CartSlice from "./Slices/CartSlice";
 import AddressSlice from "./Slices/AddressSlice";
+import LoadingBarSlice from "./Slices/LoadingBarSlice";
 const rootReducer = combineReducers({
   cart: CartSlice,
   products: ProductsReducer,
   authentication: AuthenticationSlice,
   userInfo: UserInfoSlice,
   address: AddressSlice,
+  loadingBar:LoadingBarSlice
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["products"],
+  blacklist: ["products" , "loadingBar"],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
