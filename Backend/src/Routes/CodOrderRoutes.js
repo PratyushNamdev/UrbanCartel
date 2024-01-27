@@ -20,8 +20,8 @@ let orderItems =[];
       (obj) => obj._id.toString() === item._id.toString()
     );
    if(cartItem){
-    const { _id, title, price, amount, image } = cartItem;
-       orderItems.push({productId: _id, title, price, amount, image })
+    const { _id, title, price, amount, image , pId } = cartItem;
+       orderItems.push({productId: pId, title, price, amount, image })
    } 
   });
   let totalAmt = orderItems.reduce((total, element) => total + element.price * element.amount, 0);
@@ -36,12 +36,14 @@ let orderItems =[];
       mobileNumber: selectedAddress.mobileNumber,
       mainAddress: selectedAddress.mainAddress,
       areaAddress: selectedAddress.areaAddress,
-      landmark: selectedAddress.landmark ? selectedAddress : "",
+      landmark: (selectedAddress.landmark !== '') ? selectedAddress.landmark : "",
       pincode: selectedAddress.pincode,
       townOrCity: selectedAddress.townOrCity,
       state: selectedAddress.state,
     },
-  })
+  }).then((data)=>{
+    console.log(data);
+  });
   await Cart.deleteMany({ userId: req.user.id })
   let productListHTML = '';
   orderItems.forEach((item) => {

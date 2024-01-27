@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import Style from "../CSS/SearchProduct.module.css"
 export default function SearchProduct() {
  const navigate = useNavigate();
  const [query  , setQuery] = useState("");
@@ -12,21 +12,16 @@ export default function SearchProduct() {
     }
  }
   return (
-    <nav className=" navbar-light ">
-    <form className="form-inline" onSubmit={handleSubmit}>
-      <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value={query} onChange={(e)=>{
+ 
+
+
+
+<form className={Style.searchContainer} onSubmit={handleSubmit}>
+    <input type="text" className={Style.searchBar} value={query} placeholder='Search' onChange={(e)=>{
         setQuery(e.target.value)
-      }} style={{
-       
       }}/>
-      <button className="btn btn-outline-success my-2 my-sm-0" style={{
-        backgroundColor:"rgb(253, 216, 53)",
-        color:"black",
-        border:"1px solid black",
-       
-      }} type="submit">Search</button>
-    </form>
-  </nav>
+    <button type='submit' className={Style.searchIcon}><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png" alt='search'/></button>
+  </form>
   )
 }
 

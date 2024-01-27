@@ -61,7 +61,7 @@
     background-color: #2c2b2b; /* Change the background color to a contrasting color */
     color: white; /* Set text color to be easily readable on the background */
     font-size: 1rem; /* Adjust the font size as needed */
-    margin: 0 auto;
+    margin: 2em auto;
     transition: background-color 0.3s ease;
 }
 .text_box button:hover {

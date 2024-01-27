@@ -17,7 +17,7 @@ const ProductSchema = new Schema({
   },
   category:{
     type:String,
-    required:true
+    required:true 
   },
   crawled_at:{
     type:String, 
@@ -64,3 +64,4 @@ const ProductSchema = new Schema({
 
 });
 module.exports = mongoose.model('Products' , ProductSchema);
+

@@ -23,6 +23,7 @@ export default function SignUp() {
     if(localStorage.getItem("authToken")){
       navigate("/");
     }
+    // dispatch(off())
     // eslint-disable-next-line
   },[]);
   const handleSignup = async (e) => {

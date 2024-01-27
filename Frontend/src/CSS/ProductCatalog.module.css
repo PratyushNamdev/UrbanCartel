@@ -28,7 +28,12 @@
   .pricesortdropdown select:focus {
     border-color: #000000; 
   }
-  
+  .wrapper{
+    padding: 2em;
+    max-width: 800px;
+    
+    margin: 0 auto;
+  }
 @media(min-width:600px){
     .listing_container{
         display: flex;

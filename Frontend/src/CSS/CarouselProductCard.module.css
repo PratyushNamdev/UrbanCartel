@@ -1,0 +1,22 @@
+.card_img{
+   width: 100%;
+   display: flex;
+   justify-content: center;
+}
+.card_img img{
+    width: 5em;
+    height: 5em;
+    object-fit: contain;
+    
+}
+.card{
+    height: 200px;
+    font-size: 18px;
+}
+.heading{
+    text-align: center;
+    padding: 4px 8px;
+}
+.card p{
+    font-size: 12px
+}

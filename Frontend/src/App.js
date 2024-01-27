@@ -18,6 +18,8 @@ import { useSelector , useDispatch } from "react-redux";
 import { setLoadingProgress } from "./Store/Slices/LoadingBarSlice";
 import OrderPlaced from "./Components/OrderPlaced";
 import CheckoutPage from "./Components/CheckoutPage";
+import OrdersCatalog from "./Components/User-Order/OrdersCatalog";
+import OrdersDetail from "./Components/User-Order/OrdersDetail";
 
 
 function App() {
@@ -62,7 +64,8 @@ function App() {
           <Route path="/selectAddress/addressForm" element={<AddressForm/>}/>
           <Route path="/success" element={<OrderPlaced/>}/>
           <Route path="/checkout" element={<CheckoutPage/>}/>
-        
+          <Route path="/orders-Catalog" element={<OrdersCatalog/>}/>
+          <Route path="/orderDescription/:orderId" element={<OrdersDetail/>}/>
           
         </Routes>
       </BrowserRouter>

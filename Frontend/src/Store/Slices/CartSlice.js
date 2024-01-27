@@ -22,11 +22,12 @@ export const getCartItems = createAsyncThunk("/api/fetchCartProducts", async (di
         
     });
     const data = await response.json();
+    console.log(data)
     dispatch(setLoadingProgress(100))
     return data;
 }catch(e){
-    console.log(e)
-    toast.error("Something wenjshkst wrong")
+    dispatch(setLoadingProgress(100))
+    return({error:true , message:"Something went wrong"})
 }
 });
 export const addToCart = createAsyncThunk("/api/addToCart" , async (ProductData ={})=>{
@@ -47,7 +48,8 @@ export const addToCart = createAsyncThunk("/api/addToCart" , async (ProductData 
     ProductData.dispatch(setLoadingProgress(100))
     return data;
 }catch(e){
-    toast.error("Something went wrong")
+    ProductData.dispatch(setLoadingProgress(100))
+    return({error:true , message:"Something went wrong"})
 }
 })
 export const removeFromCart = createAsyncThunk("/api/removeFromCart" , async (ProductData ={})=>{
@@ -68,13 +70,15 @@ export const removeFromCart = createAsyncThunk("/api/removeFromCart" , async (Pr
     ProductData.dispatch(setLoadingProgress(100))
     return data;
 }catch(e){
-    toast.error("Something went wrong")
+    ProductData.dispatch(setLoadingProgress(100))
+
+    return({error:true , message:"Something went wrong"})
 }
 })
 export const clearCart = createAsyncThunk("/api/clearCart" , async (ProductData ={})=>{
     
-    ProductData.dispatch(setLoadingProgress(70));
-    const response = await fetch(`${host}/api/cart/clearCart`, {
+    try{ ProductData.dispatch(setLoadingProgress(70));
+        const response = await fetch(`${host}/api/cart/clearCart`, {
         method:"DELETE",
         headers:{
             "Content-Type":"application/json",
@@ -87,6 +91,12 @@ export const clearCart = createAsyncThunk("/api/clearCart" , async (ProductData 
     const data = await response.json();
     ProductData.dispatch(setLoadingProgress(100))
     return data;
+}catch(e){
+    
+    ProductData.dispatch(setLoadingProgress(100))
+    return({error:true , message:"Something went wrong"})
+
+}
 })
 const CartSlice = createSlice({
     name:"Cart",
@@ -122,6 +132,7 @@ const CartSlice = createSlice({
             state.isLoading = false;
             if(action.payload?.error){
                 toast.error(action.payload.message)
+                state.totalItems = null;
             }
             else{
                 state.cartItems = action.payload?.cartItems;            

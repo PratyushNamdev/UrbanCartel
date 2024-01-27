@@ -24,6 +24,7 @@ export const proccedToPayment = async ({dispatch , setLoadingProgress , cartItem
         toast.error("Something went wrong")
     }
 }catch(e){
+    dispatch(setLoadingProgress(100))
     toast.error("Something went wrong")
 
 }

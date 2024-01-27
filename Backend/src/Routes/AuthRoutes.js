@@ -69,6 +69,7 @@ router.post(
         email: req.body.email,
         number: req.body.number,
         password: secPass,
+        
       }).then((user) => {
         sendOTPverificationEmail(user._id, user.email, res);
       });

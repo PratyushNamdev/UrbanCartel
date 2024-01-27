@@ -1,15 +1,27 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { CartIcon } from "../Helper/icon";
-import "../CSS/Navbar.css"
+import {
+  CartIcon,
+  ProfileIcon,
+  OrderSuccessIcon,
+  HomeIcon,
+} from "../Helper/icon";
+import Style from "../CSS/Navbar.module.css";
 export default function Navbar() {
   const { totalItems } = useSelector((store) => store.cart);
   const [showNavbar, setShowNavbar] = useState(false);
+  const { user } = useSelector((store) => store.userInfo);
+  const { profilePic } = user;
 
   const handleShowNavbar = () => {
     setShowNavbar(!showNavbar);
+    document.body.style.overflow = showNavbar ? 'auto' : 'hidden';
   };
+  const hideSideBar = ()=>{
+    setShowNavbar(false);
+    document.body.style.overflow = 'auto';
+  }
   const style = {
     minWidth: "70px",
     borderRadius: "10px",
@@ -22,56 +34,34 @@ export default function Navbar() {
   };
   const { isLoggedIn } = useSelector((state) => state.authentication);
 
-const amt_container = {
-  position: "absolute",
-  top: "-0.4rem",
-  right:" -0.3rem",
-  width: "1.25rem",
-  height:"1.25rem",
-  borderRadius: "150%",
-  background: "rgba(0,0,0,0.3)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}
+  const amt_container = {
+    position: "absolute",
+    top: "-0.4rem",
+    right: " -0.3rem",
+    width: "1.25rem",
+    height: "1.25rem",
+    borderRadius: "150%",
+    background: "rgba(0,0,0,0.3)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
   return (
-    // <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-    //   <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    //     <a className="navbar-brand  text-dark" href="/">
-    //       Urban Cartel
-    //     </a>
-    //     <button
-    //       className="navbar-toggler"
-    //       type="button"
-    //       data-toggle="collapse"
-    //       data-target="#navbarSupportedContent"
-    //       aria-controls="navbarSupportedContent"
-    //       aria-expanded="false"
-    //       aria-label="Toggle navigation"
-    //     >
-    //       <span className="navbar-toggler-icon"></span>
-    //     </button>
-
-    //     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-    //       <ul className="navbar-nav mr-auto">
-    //         <li className="nav-item"></li>
-    //       </ul>
-
-         
-    //     </div>
-    //   </nav>
-    // </div>
-    <nav className="navbar">
-      <div className="container">
-        <div className="logo">
-          Urban Cartel
+    <nav className={Style.navbar}>
+      <div className={Style.container}>
+          <Link to="/">
+        <div className={Style.logo}>
+            <img
+              src="https://res.cloudinary.com/dgxvtemh2/image/upload/v1705860267/Urban%20Cartel/ss_rbhojr.png"
+              alt=""
+            />
         </div>
-        <div className="menu-icon" onClick={handleShowNavbar}>
+          </Link>
+        <div className={Style.menuIcon} onClick={handleShowNavbar}>
           <Hamburger />
         </div>
-        <div className={`nav-elements  ${showNavbar && "active"}`}>
-          
-        {!isLoggedIn && (
+        <div className={`${Style.navElements} ${showNavbar && Style.active}`}>
+          {!isLoggedIn && (
             <ul>
               <li>
                 <Link to="/login">
@@ -87,59 +77,112 @@ const amt_container = {
               </li>
             </ul>
           )}
-           {isLoggedIn && (
+          {isLoggedIn && (
             <ul>
-              <li   >
-                <Link to="/cart">
-                  <div style={{ width: "35px", margin: "3px" , position:"relative", display:"block" }}>
-                    <CartIcon />
-                    <div style={amt_container}>
-                      <p
-                      style={{
-                        marginBottom: "3px",
-                        fontSize: "1rem",
-                        color:"black"
-                      }}
-
-                    >{totalItems}</p></div>
+              <li className={Style.smallScreen} onClick={hideSideBar}>
+                <Link to="/">
+                  <div className={Style.navItemWrapper}>
+                    <div style={{ margin: "2px", width: "37px" }}>
+                      <HomeIcon/>
+                    </div>
+                    <span className={Style.navIconText}>Home</span>
                   </div>
-                  
                 </Link>
               </li>
-          
-              <li className="nav-item ml-1" >
-                <Link to="/userProfile">
-                  <div style={{ width: "35px", margin: "2px" }}>
-                    <img
-                      src="https://w7.pngwing.com/pngs/304/275/png-transparent-user-profile-computer-icons-profile-miscellaneous-logo-monochrome.png"
-                      alt=""
-                    />
-                   
+              <li onClick={hideSideBar}>
+                <Link to="/cart">
+                  <div className={Style.navItemWrapper}>
+                    <div
+                      style={{
+                        width: "40px",
+                        margin: "2px",
+                        position: "relative",
+                        display: "block",
+                      }}
+                    >
+                      <CartIcon />
+                      <div style={amt_container}>
+                        <p
+                          style={{
+                            marginBottom: "3px",
+                            fontSize: "1rem",
+                            color: "black",
+                          }}
+                        >
+                          {totalItems}
+                        </p>
+                      </div>
+                    </div>
+                    <span className={Style.navIconText}>Cart</span>
                   </div>
                 </Link>
+              </li>
+
+              <li className={Style.smallScreen} onClick={hideSideBar}>
+                <Link to="/userProfile">
+                  <div className={Style.navItemWrapper}>
+                    <div style={{ margin: "2px", width: "37px" , height:"37px" }}>
+                      {profilePic ? (
+                        <img className={Style.profilePic} src={profilePic} alt="Profile" />
+                      ) : (
+                        <ProfileIcon />
+                      )}
+                    </div>
+                    <span className={Style.navIconText}>Your Profile</span>
+                  </div>
+                </Link>
+              </li>
+              <li className={Style.smallScreen} onClick={hideSideBar}>
+                <Link to="/orders-Catalog">
+                  <div className={Style.navItemWrapper}>
+                    <div style={{ margin: "2px", width: "37px" }}>
+                      <OrderSuccessIcon />
+                    </div>
+                    <span className={Style.navIconText}>Your Orders</span>
+                  </div>
+                </Link>
+              </li>
+
+              <li className={Style.bigScreen}>
+                <div className={Style.dropdown}>
+                  <div className={Style.dropbtn}>
+                    {profilePic ? (
+                      <img className={Style.profilePic} src={profilePic} alt="Profile" />
+                    ) : (
+                      <ProfileIcon />
+                    )}
+                  </div>
+                  <div className={Style.dropdownContent}>
+                    <Link to="/userProfile">
+                      <div className={Style.navItemWrapper}>
+                        <div style={{ margin: "2px", width: "37px" , height:"37px"}}>
+                          {profilePic ? (
+                            <img className={Style.profilePic} src={profilePic} alt="Profile" />
+                          ) : (
+                            <ProfileIcon />
+                          )}
+                        </div>
+                        <span>Your Profile</span>
+                      </div>
+                    </Link>
+                    <Link to="/orders-Catalog">
+                      <div className={Style.navItemWrapper}>
+                        <div style={{ margin: "2px", width: "37px" }}>
+                          <OrderSuccessIcon />
+                        </div>
+                        <span>Your Orders</span>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
               </li>
             </ul>
           )}
         </div>
       </div>
     </nav>
-  
   );
 }
-
-
-
-
-
-
-
-  
-
-
-    
-
-
-
 
 const Hamburger = () => (
   <svg
@@ -179,6 +222,3 @@ const Hamburger = () => (
     </g>
   </svg>
 );
-
-
-

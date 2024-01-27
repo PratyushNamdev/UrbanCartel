@@ -1,49 +1,49 @@
 const express = require("express");
 const router = express.Router();
-const multer = require('multer');
+const User = require("../Models/User");
 const cloudinary = require("../Services/Cloudinary")// Cloudinary SDK
 const streamifier = require('streamifier');
+const DecodingToken = require("../Middleware/DecodingToken");
 
-// Cloudinary configuration
 
-// Multer configuration for file upload
-// const storage = multer.memoryStorage();
-const upload = multer();
-let uploadFromBuffer = (req) => {
-
-   return new Promise((resolve, reject) => {
-
-     let cld_upload_stream = cloudinary.uploader.upload_stream(
-      {
-        folder: "UrbanCartelUserProfilePic"
-      },
-      (error, result) => {
-
-        if (result) {
-          resolve(result);
-        } else {
-          reject(error);
-         }
-       }
-     );
-
-     streamifier.createReadStream(req.file.buffer).pipe(cld_upload_stream);
-   });
-
-};
-
-router.post("/uploadProfilePic", upload.single('profilePic'), async (req, res) => {
+router.put("/editProfile",DecodingToken, async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
-    }
-
-    let result = await uploadFromBuffer(req);
-    res.send(result);
+   const {firstName , lastName , newProfilePic} = req.body;
+   
+   const user = await User.findById(req.user.id);
+   if(!user){
+    return res.json({error:true , message:"User Not Found"});
+   }
+   const newData = {};
+   if(firstName){
+    newData.firstName = firstName;
+   }
+   if(lastName){
+    newData.lastName = lastName;
+   }
+   if(typeof newProfilePic === 'string' && newProfilePic !== ""){
     
+    const ImgId =  user.profilePic.public_id;
+    console.log(ImgId)
+            if (ImgId) {
+                await cloudinary.uploader.destroy(ImgId);
+            }
+
+            const newImage = await cloudinary.uploader.upload(newProfilePic, {
+                folder: "UrbanCartelUserProfilePic",
+               
+            });
+             console.log(newImage)
+            newData.profilePic = {
+                public_id: newImage.public_id,
+                url: newImage.secure_url
+            }
+   }
+   const updatedProfile = await User.findOneAndUpdate(  { _id: req.user.id }, newData , {new:true});
+   res.json({success:true , updatedProfile});
   } catch (error) {
-    console.error("Error occurred while uploading profile picture:", error);
-    res.status(500).json({ error: "Failed to upload profile picture" });
+    console.error(error);
+    res.status(500).json({ error: true , message:"Failed to upload the profile picture" });
   }
 });
 

@@ -7,13 +7,15 @@ import UserInfoSlice from "./Slices/UserInfoSlice";
 import CartSlice from "./Slices/CartSlice";
 import AddressSlice from "./Slices/AddressSlice";
 import LoadingBarSlice from "./Slices/LoadingBarSlice";
+import OrderSlice from "./Slices/OrderSlice";
 const rootReducer = combineReducers({
   cart: CartSlice,
   products: ProductsReducer,
   authentication: AuthenticationSlice,
   userInfo: UserInfoSlice,
   address: AddressSlice,
-  loadingBar:LoadingBarSlice
+  loadingBar:LoadingBarSlice,
+  Order:OrderSlice
 });
 
 const persistConfig = {

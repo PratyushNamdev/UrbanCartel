@@ -1,0 +1,66 @@
+.container {
+  padding: 1em;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.orderBox {
+  padding: 1em;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin-bottom: 2em;
+}
+.orderBox > div {
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
+}
+.orderBox p{
+    text-align: unset;
+    margin-top: .45em;
+}
+.orderBox div:not(:last-child) {
+  margin-bottom: 0.75em;
+}
+.orderBox div :first-child {
+  color: rgba(0, 0, 0, 0.8);
+}
+.statusBox{
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: .75em;   
+}
+.orderItem {
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto 1fr;
+  grid-column-gap: 1.5rem;
+  margin: 1.5rem 0;
+  border-bottom: 1px solid rgb(187, 182, 182);
+  min-height: 120px;
+  cursor: pointer;
+}
+.orderItem img {
+  width: 5rem;
+  height: 5rem; 
+  object-fit: cover;
+}
+.orderItem h4 {
+  margin: 0 0 0.3em 0;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+.itemprice {
+  color: var(--clr-grey-5);
+}
+@media (min-width:700px){
+    
+    .container{
+       display: grid;
+       gap: 2em;
+       /* grid-template-areas: 'one three'; */
+       grid-template-columns: 1fr 1fr;
+   
+                     
+    }
+    
+}

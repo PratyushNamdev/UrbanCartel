@@ -1,0 +1,304 @@
+.background{
+    background: url("https://res.cloudinary.com/dgxvtemh2/image/upload/v1703523122/Urban%20Cartel/userProfileBigScreen_lw8fej.jpg");
+    min-height: 95dvh;
+background-size: cover;
+  display: flex;
+  align-items: center;
+  
+}
+dialog{
+  width: 300px;
+  height: 200px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.profileContainer {
+  text-align: center;
+  margin-left: 3em;
+  width: 100%;
+  max-width: 600px;
+  padding: 1em;
+  
+  background: rgba(255, 255, 255, 0.21);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.profileContainer h2{
+    letter-spacing: .2rem;
+    font-size: 1.3rem;
+    margin-top: .5rem;
+}
+.profileContainer p{
+    margin-bottom: .3rem;
+}
+
+
+.btnGroup{
+  margin: 1em 0 0 0 ;
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+.editProfileBtn {
+  appearance: none;
+  background-color: #2ea44f;
+  border: 1px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.editProfileBtn:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.editProfileBtn:hover {
+  background-color: #2c974b;
+}
+
+.editProfileBtn:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.editProfileBtn:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.editProfileBtn:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
+
+
+.logOutBtn {
+  width: 103px;
+  appearance: none;
+  background-color: #df2727;
+  border: 1px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.logOutBtn:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.logOutBtn:hover {
+  background-color: #2c974b;
+}
+
+.logOutBtn:focus {
+  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+  outline: none;
+}
+
+.logOutBtn:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, .1);
+  color: rgba(255, 255, 255, .8);
+  cursor: default;
+}
+
+.logOutBtn:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
+.profileIcon {
+  width: 14em;
+  margin: 0 auto;
+}
+.editIcon {
+  width: 30px;
+  height: 10px;
+  margin: 0 auto;
+  position: relative;
+  bottom: 62px;
+  left: 72px;
+}
+@media (max-width:1100px){
+    .background{
+        justify-content: center;
+      
+    }
+    .profileContainer{
+        margin-left: 0;
+    }
+}
+@media (max-width:800px){
+    .background{
+        display: block;
+        
+        background: url("https://res.cloudinary.com/dgxvtemh2/image/upload/v1696160481/Urban%20Cartel/njbr3bpjzdrzwt20lhhc.jpg");
+        
+        min-height: 95dvh;
+        
+        max-width: 1600px;
+        background-size: cover; /* Ensure the image covers the entire container */
+        background-repeat: no-repeat; /* Prevent image repetition */
+        background-position: center; /* Center the image within the container */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        background-attachment: fixed;
+        overflow: hidden;
+    }
+    .profileContainer{
+        margin-left: 0;
+        margin: 0 1em;
+    }
+}
+
+
+/* * editBar CSS */
+.editSidebar {
+  position: absolute;
+  left: 0;
+  top: 60px;
+  background-color: #fff;
+  width: 0px;
+  height: calc(100vh - 60px);
+  transition: all 0.3s ease-in;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.editSidebar.active {
+  width: 300px;
+}
+@media (min-width:1000px) {
+  .editSidebar.active {
+    width: 570px;
+  }
+  .editSidebar{
+    right: 0;
+    left: unset;
+  }
+}
+
+
+.closeIconWrapper{
+ width: 100%;
+display: flex;
+justify-content: right;
+}
+.closeIconWrapper span{
+  width: 40px;
+}
+.closeIconWrapper span :hover{
+  cursor: pointer;
+
+}
+.imageBox{
+  background-color: black;
+  overflow: hidden;
+  width: 12em;
+  margin: 0 auto;
+  height: 12em;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.imageBox img{
+ 
+  object-fit: cover;
+  
+}
+.formTextFieldWrapper{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.formTextFieldWrapper input{
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: large;
+  padding: .2rem;
+  outline: none;
+}
+.formTextFieldWrapper > div{
+  margin-top: 2em;
+}
+.formTextFieldWrapper  input[type="submit"]{
+  
+  width: 200px;
+  appearance: none;
+  background-color: #2ea44f;
+  border: 1px solid rgba(27, 31, 35, .15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}

@@ -4,8 +4,8 @@
     margin: 0 auto;
 }
 .checkout_box{
-    padding: 1em;
-    border: 1px solid rgba(0, 0, 0 ,0.2);
+  padding: 1em;
+  border: 1px solid rgba(0, 0, 0 ,0.2);
     border-radius: 10px;
     margin-bottom: 2em;
 }
@@ -83,11 +83,16 @@
      grid-area: three
     }
     
-    .checkout_container{
+    .container{
        display: grid;
        gap: 2em;
        grid-template-areas: 'two  one'
                             'two three';
     }
     
+}
+
+
+.card_info_heading{
+  letter-spacing: 0.20rem;
 }

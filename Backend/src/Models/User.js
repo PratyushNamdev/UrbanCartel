@@ -27,9 +27,18 @@ const userSchema = new Schema({
         type:Date,
         default: Date.now
     },
-    profilePic:{
-        type:String,
-        default:""
+    profilePic: {
+        public_id: {
+            type: String,
+           
+            default:""
+        },
+        url: {
+            type: String,
+           
+            default:""
+        }
+    
     },
     verified:{
         type:Boolean,

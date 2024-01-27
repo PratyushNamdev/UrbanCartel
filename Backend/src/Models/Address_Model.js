@@ -14,7 +14,7 @@ const addressSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  mainAddress: {
+  mainAddress: {  
     type: String,
     required: true,
   },

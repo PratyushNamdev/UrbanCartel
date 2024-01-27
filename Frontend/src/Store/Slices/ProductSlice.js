@@ -4,6 +4,7 @@ import {host} from "../../Helper/host";
 const initialState = {
   productData: [],
   totalData: 0,
+ //length of the data in the productData Array 
   length:null
 };
 // const host = process.env.REACT_APP_HOST;
@@ -19,14 +20,14 @@ export const getProducts = createAsyncThunk(
           'ngrok-skip-browser-warning': 'true'
         }
       });
-     console.log(response)
+    
       const data = await response.json();
       console.log(data)
       return data
 
     }catch(e){
-      toast.error("Server Error");
-      console.log(e)
+  
+      return {error:true}
     }
     // try {
     //   return await fetch(
@@ -60,11 +61,18 @@ const productSlice = createSlice({
       .addCase(getProducts.fulfilled, (state, action) => {
         console.log(action)
         state.isLoading = false;
-        state.productData = action.payload?.data;
-        state.totalData = action.payload?.totalDocs;
-        state.length = state.productData?.length;
+        if(action.payload?.error){
+          toast.error("Server Error");
+        }
+        if(action.payload?.success){
+           console.log(action.payload.data)
+          state.productData = action.payload?.data;
+          state.totalData = action.payload?.totalDocs;
+          state.length = state.productData?.length;
+        }
       })
       .addCase(getProducts.rejected, (state, action) => {
+        state.isLoading = false;
         toast.error("Some Error Occured");
         console.log(action.payload)
       });

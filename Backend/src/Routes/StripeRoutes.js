@@ -25,7 +25,7 @@ router.post(
         );
         if (storeItem) {
           specificItems.push({
-            pId: storeItem._id,
+            pId: storeItem.pId,
             title: storeItem.title,
             price: storeItem.price,
             amount: storeItem.amount,
@@ -99,7 +99,7 @@ router.post(
   }
 );
 
-const endpointSecret = "whsec_NNRxzoSEN7IQQSVB6HHT7AkCTb5stSU3";
+const endpointSecret = "whsec_ALBSoDlgaSPbe3IUBQArXy6Xxs88E37e";
 
 router.post(
   "/webhook",
@@ -123,9 +123,10 @@ router.post(
         const userId = event.data.object.metadata.userId;
         const secretKey = event.data.object.metadata.secretKey;
         const orderProduct = await OrderItems.find({ secretKey });
-        console.log(orderProduct);
+        console.log(orderProduct.products);
         let totalAmt = 0
         const orderItems = orderProduct[0].products.map((item)=>{
+          console.log(item)
           totalAmt += item.price * item.amount;
           return{
             productId: item.pId,

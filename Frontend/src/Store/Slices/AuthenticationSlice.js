@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { setUser } from "./UserInfoSlice";
 import { setTotalItems } from "./CartSlice";
 import {host} from "../../Helper/host";
-// const host = process.env.REACT_APP_HOST;
+
 const initialState = {
   userId: "",
   isLoggedIn: false,
@@ -109,7 +109,7 @@ const AuthenticationSlice = createSlice({
       localStorage.removeItem("authToken");
      
     },
-    
+
   },
   extraReducers: (builder) => {
     builder

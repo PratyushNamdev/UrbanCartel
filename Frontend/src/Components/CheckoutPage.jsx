@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Style from "../CSS/CheckoutPage.module.css";
+import Style from "../CSS/CheckoutPage&OrdersCard.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Cash , Card } from "../Helper/icon";
 import toast from "react-hot-toast";
