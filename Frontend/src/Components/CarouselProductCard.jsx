@@ -3,7 +3,9 @@ import Style from "../CSS/CarouselProductCard.module.css";
 import { useNavigate } from "react-router-dom";
 export default function CarouselProductCard(props) {
   const navigate = useNavigate();
+  // Function to navigate to the product detail page when the card is clicked
   const navigateToProductDetail = () => {
+     // Use the navigate function to redirect to the product detail page with the product ID
     navigate(`/productDescription/${props.data._id}`, { state: { props } });
   };
   return (

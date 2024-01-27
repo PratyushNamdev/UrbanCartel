@@ -6,11 +6,14 @@ export default function OrdersDetail() {
     const location = useLocation();
     const navigate = useNavigate();
     const {data} = location.state;
+      // Extract date details
     let year = new Date(data.created_At).getFullYear();
     let day = new Date(data.created_At).getDate();
     let month = new Date(data.created_At).getMonth()+1;
+    // Determine colors for delivery and payment statuses
     let deliveryStatusClr = statusColorSelector(data.deliveryStatus)
     let paymentStatusClr = statusColorSelector(data.paymentStatus)
+    // Initialize variables for item cost and total items
     let itemCost = 0;
     let totalItems = 0;
    

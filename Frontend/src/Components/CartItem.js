@@ -8,8 +8,11 @@ import { useNavigate } from "react-router-dom";
 export default function CartItem(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // Destructure relevant data from props
   const { image, title, price, amount, userId, pId } = props.data;
+  // Render the cart item
   return (
+
     <div>
       <article className={Style.cartitem}>
         <img
@@ -17,6 +20,7 @@ export default function CartItem(props) {
           src={image}
           alt={title}
           onClick={() => {
+            // Navigate to the product description page when the title is clicked
             navigate(`/productDescription/${pId}`);
           }}
         />

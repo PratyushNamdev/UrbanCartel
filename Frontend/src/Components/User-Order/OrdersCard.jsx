@@ -3,19 +3,25 @@ import Style from "../../CSS/CheckoutPage&OrdersCard.module.css";
 import { useNavigate } from 'react-router-dom';
 import { statusColorSelector } from '../../Helper/statusColorSelector';
 export default function OrdersCard(props) {
+    // Destructure data from props
     const {data} = props;
+     // Initialize navigate function from react-router-dom
     const navigate = useNavigate();
+    // Function to navigate to order details page
     const navigateToOrderDetails = ()=>{
       navigate(`/orderDescription/${data._id}` , {state:{data}})
     }
+    // Determine text color based on the value of data.deliveryStatus
     let textColor = statusColorSelector(data.deliveryStatus);
+    // Extract year, day, and month from created_At date
     let year = new Date(data.created_At).getFullYear();
     let day = new Date(data.created_At).getDate();
     let month = new Date(data.created_At).getMonth()+1;
-    // Determine the text color based on the value of data.deliveryStatus
+   
     
   
     return (
+        // Container for the order card with click event to navigate to order details
       <div className= {`${Style.checkout_box} , ${Style.two}`} onClick={navigateToOrderDetails} >
       {data.orderItems.map((item) => {
         return (
@@ -50,29 +56,6 @@ export default function OrdersCard(props) {
      </div>
     </div>
   
-        // <div className="card">
-        //   <h2>Order Information</h2>
-        //   <p><strong>ID:</strong> {data._id}</p>
-        //   <p><strong>User ID:</strong> {data.userId}</p>
-    
-        //   <h3>Order Items</h3>
-        //   {data.orderItems.map((item, index) => (
-        //     <div key={index} className="order-item">
-        //       <img src={item.image} alt={item.title} />
-        //       <p><strong>Title:</strong> {item.title}</p>
-        //       <p><strong>Price:</strong> ${item.price}</p>
-        //       <p><strong>Amount:</strong> {item.amount}</p>
-        //     </div>
-        //   ))}
-    
-        //   <h3>Order Status</h3>
-        //   <p><strong>Payment Status:</strong> {data.paymentStatus}</p>
-        //   <p><strong>Delivery Status:</strong> {data.deliveryStatus}</p>
-        //   <p><strong>Delivery Cost:</strong> ${data.deliveryCost}</p>
-    
-        //   <h3>Address</h3>
-        //   <p><strong>Created At:</strong> {data.address.created_At}</p>
-        // </div>
       );
     };
 

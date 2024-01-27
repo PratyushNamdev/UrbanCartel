@@ -8,27 +8,31 @@ import Footer from "../Footer";
 import CircularLoading from "../CircularLoading";
 import ServerErrorMessage from '../ServerErrorMessage';
 export default function OrdersCatalog() {
+   // Select relevant data from the Redux store
     const {userOrders  ,isLoading} = useSelector((store)=>store.Order);
     const { isLoggedIn } = useSelector((store) => store.authentication);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    // useEffect to fetch user orders on component mount
     useEffect(()=>{
+       // Redirect to login if not authenticated
     if(!localStorage.getItem("authToken") || !isLoggedIn){
       navigate("/login");
       return;
     }
  
-
+ // Dispatch action to fetch user orders
       dispatch(getUserOrders(dispatch)); 
 
    // eslint-disable-next-line
   }, []);
-
+// Loading state while fetching data
   if(isLoading){
     return (
         <div className={Style.loadingContainer}><CircularLoading/></div>
     )
   }
+  // Server error message if unable to fetch data
   if(userOrders === null){
     return(
       <>
@@ -36,6 +40,7 @@ export default function OrdersCatalog() {
       </>
     );
   }
+    // Display a message if the user has no orders
   if(!isLoading && userOrders.length < 1){
     return (
       <section className={Style.noOrderContainer}>
@@ -52,6 +57,7 @@ export default function OrdersCatalog() {
       </section>
     )
   }
+  // Display user orders if available
   if(!isLoading && userOrders.length > 0){
   return (
     <div className={Style.orderCatalogContainer}>

@@ -26,8 +26,7 @@ export default function ProductCatalog(props) {
   // State for managing the sorting dropdown value
   const [dropdownValue, setDropdownValue] = useState("null");
 
-  // Retrieve the host information from environment variables
-  // const host = process.env.REACT_APP_HOST;
+
   // Variables for category and value
   let category, value;
 

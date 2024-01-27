@@ -2,6 +2,9 @@
     margin: 0 0 2em 0;
     width: 100%;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    &:hover{
+        cursor: pointer;
+    }
 }
 img{
     max-width: 100%;

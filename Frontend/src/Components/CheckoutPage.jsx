@@ -15,25 +15,31 @@ export default function CheckoutPage() {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
+   // State to manage the selected payment method and delivery cost
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
-  const [deliveryCost , setDeliveryCost] = useState(0)
+  const [deliveryCost , setDeliveryCost] = useState(0);
+   // Handler function for payment method change
   const handlePaymentMethodChange = (event) => {
     setSelectedPaymentMethod(event.target.value);
   };
-
+// Handler function for placing the order
   const handlePlaceOrder = () => {
-    // Add your logic for placing the order based on the selected payment method
+    // Validate selected payment method
     if(selectedPaymentMethod===""){
       return toast.error("Select Payment Option")
     }
     else if(selectedPaymentMethod === "cardOrUPI"){
+      // Proceed to online payment
       proccedToPayment({dispatch , setLoadingProgress , cartItems , selectedAddress})
     }
     else{
+      // Proceed to Cash on delivery
      proccedToCODOrder({dispatch ,  navigate,setLoadingProgress , cartItems , selectedAddress})
     }
 
   };
+  // useEffect for initial checks and setting delivery cost
   useEffect(()=>{
     if(!localStorage.getItem("authToken")){
       return navigate("/");
@@ -41,6 +47,7 @@ export default function CheckoutPage() {
     if (!location.state?.entry) {
       return navigate("/");
     }
+    // Set delivery cost based on total price
     if(totalPrice<=500){
       setDeliveryCost(40);
     }

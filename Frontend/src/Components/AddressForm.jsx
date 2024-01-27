@@ -228,7 +228,7 @@ export default function AddressForm() {
                 <option value="Uttarakhand">Uttarakhand</option>
                 <option value="West Bengal">West Bengal</option>
 
-                {/* Add more state options as needed */}
+              
               </select>
             </div>
             <button className={Style.address_submit_btn} type="button" onClick={()=>{

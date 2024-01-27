@@ -1,1 +1,1 @@
-export const host = "https://9fd6-2409-4043-4c17-4a69-e86b-63e3-468c-a9de.ngrok-free.app";
+export const host = "https://urbancartel-backend.onrender.com";
