@@ -22,16 +22,7 @@ export default function Navbar() {
     setShowNavbar(false);
     document.body.style.overflow = 'auto';
   }
-  const style = {
-    minWidth: "70px",
-    borderRadius: "10px",
-    margin: ".2em ",
-    backgroundColor: "#ff9d00",
-    border: "0",
-    outline: "1px solid rgb(0, 0, 0)",
-    padding: ".8em",
-    outlineOffset: " -7px",
-  };
+ 
   const { isLoggedIn } = useSelector((state) => state.authentication);
 
   const amt_container = {
@@ -63,16 +54,36 @@ export default function Navbar() {
         <div className={`${Style.navElements} ${showNavbar && Style.active}`}>
           {!isLoggedIn && (
             <ul>
-              <li>
+              <li  className={Style.bigScreen}>
                 <Link to="/login">
                   {" "}
-                  <button style={style}>Login</button>
+                  <span className={Style.btn}>Login</span>
                 </Link>
               </li>
-              <li>
+              <li  className={Style.bigScreen}>
                 <Link to="/signUp">
                   {" "}
-                  <button style={style}>SignUp</button>
+                  <span className={Style.btn}>SignUp</span>
+                </Link>
+              </li>
+              <li className={Style.smallScreen} onClick={hideSideBar}>
+                <Link to="/login">
+                  <div className={Style.navItemWrapper} >
+                    
+                    <span className={Style.navIconText} style={{
+                      margin:"1em"
+                    }}>Login</span>
+                  </div>
+                </Link>
+              </li>
+              <li className={Style.smallScreen} onClick={hideSideBar}>
+                <Link to="/signup">
+                  <div className={Style.navItemWrapper}>
+                   
+                    <span className={Style.navIconText} style={{
+                      margin:"1em"
+                    }}>SignUp</span>
+                  </div>
                 </Link>
               </li>
             </ul>

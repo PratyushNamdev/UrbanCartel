@@ -68,18 +68,26 @@ export default function ProductCatalog(props) {
   if (isLoading) {
     return (
       <>
-        {isLoading && (
-          <div
-            style={{
-              width: "100%",
-              maxWidth: "1200px",
-              margin: "2em auto",
-              padding: "3em",
-            }}
-          >
-            <Skeleton count={100} />
-          </div>
-        )}
+      {isLoading && (
+  <div style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', // Responsive columns
+    alignItems: "center",
+    justifyContent: "center",
+    gap: '1em',
+    margin: "0em auto",
+    padding: "1em 2em",
+    maxWidth: "1200px",
+    width: "100%"
+  }}>
+    {Array.from({ length: 40 }).map((_, index) => (
+      <div key={index}>
+        <Skeleton width='100%' height='380px' />
+      </div>
+    ))}
+  </div>
+)}
+
       </>
     );
   }

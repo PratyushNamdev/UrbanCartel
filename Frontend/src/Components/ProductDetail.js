@@ -5,15 +5,14 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Style from "../CSS/ProductDetail.module.css";
 import { addToCart } from "../Store/Slices/CartSlice";
 import Footer from "./Footer";
-// import {host} from "../Helper/host";
+import toast from "react-hot-toast";
 import { api } from "../Services/api";
 import RelatedProductCarousel from "./RelatedProductCarousel";
-// import Loading from "./Loading";
+import ReactStars from "react-rating-stars-component";
 import { setLoadingProgress } from "../Store/Slices/LoadingBarSlice";
 import { useDispatch, useSelector } from "react-redux";
 export default function ProductDetail() {
   const { userId } = useSelector((store) => store.authentication);
-  // const {isLoading } = useSelector((store)=>store.cart)
   const navigate = useNavigate();
   const location = useLocation();
   const { productId } = useParams();
@@ -46,10 +45,11 @@ export default function ProductDetail() {
       const responseData = await api.get(
         `/api/product/products?id=${productId}`
       );
-      console.log(responseData);
+   
       setData(responseData.data);
       dispatch(setLoadingProgress(100));
     } catch (error) {
+      dispatch(setLoadingProgress(100));
       console.error("Error fetching data:", error);
     }
   };
@@ -70,7 +70,7 @@ export default function ProductDetail() {
   return (
     <>
       <section className={Style.container}>
-        {/* <div className={Style.container}> */}
+        
         <div className={Style.productDetail_wrapper}>
           <div className={Style.carousel_container}>
             <Carousel
@@ -94,6 +94,14 @@ export default function ProductDetail() {
               <h5 style={{ padding: 0, margin: 0 }}>Urban Cartel</h5>
               <h5 className={Style.title}>{data.title}</h5>
               <details>{data.description}</details>
+              <div className={Style.rating}>
+          <ReactStars
+            count={5}
+            value={parseInt(data.average_rating)}
+            edit={false}
+            size={22}
+          /> <span>({data.average_rating})</span>
+         </div>
               <div className={Style.priceBox}>
                 <h6 style={{ margin: 0 }}>
                   ₹{data.selling_price_numeric}{" "}
@@ -109,15 +117,16 @@ export default function ProductDetail() {
                 >
                   Add to Cart
                 </button>
-                <button className={Style.btn}>WishList</button>
+                <button className={Style.btn} onClick={()=>{toast.success("This feature will be available soon...")}}>WishList</button>
               </div>
             </div>
             {/* </div> */}
             <div className={Style.table_container}>
               <table className={Style.responsivetable}>
+               
                 <thead>
-                  <tr>
-                    <th>Specification</th>
+                  <tr >
+                    <th colSpan={2}  style={{textAlign:"unset" }}><h4>Specification</h4> </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -136,10 +145,11 @@ export default function ProductDetail() {
             </div>
           </div>
         </div>
-
+<hr style={{border:"1px solid #DDD"}}/>
+<br />
         <div className={Style.relatedProductCarouselContainer}>
           <h4>You may also like</h4>
-          <RelatedProductCarousel sub_category={data.sub_category} />
+          <RelatedProductCarousel sub_category={data.sub_category} currentProductId={data._id} />
         </div>
       </section>
       <Footer />

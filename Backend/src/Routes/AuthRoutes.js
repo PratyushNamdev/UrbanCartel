@@ -28,7 +28,7 @@ const sendOTPverificationEmail = async (_id, email, res) => {
     });
 
     await transporter.sendMail(mailOptions).then(() => {
-      res.json({ needVerificationstatus: true, id: _id });
+      res.json({ needVerificationstatus: true, id: _id  , email:email});
     });
   } catch (error) {
     res.json({ status: false, id: null });
@@ -48,9 +48,9 @@ router.post(
   ],
   async (req, res) => {
     //cheching for any errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+      return res.status(400).json({errors: true,  message: error.array() });
     }
      try {
       console.log(req.body);
@@ -74,7 +74,7 @@ router.post(
         sendOTPverificationEmail(user._id, user.email, res);
       });
     } catch (err) {
-      res.status(400).send({ error: "Some Error Occured" });
+      res.status(400).send({ error: true , message:"Internal Server error" });
     }
   }
 );
@@ -138,14 +138,14 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ error: true , message:"Enter a valid email" });
     }
     const { email, password } = req.body;
     try {
       console.log(req.body);
       let user = await User.findOne({ email });
       if (!user) {
-        return res.send({ signUpRequired: true });
+        return res.send({ error: true , message:"SignUp Required" });
       }
       if (!user.verified) {
         await otpModel.deleteMany({ userId: user._id });
@@ -154,7 +154,7 @@ router.post(
       //checking the password
       let check = await bcrypt.compare(password, user.password);
       if (!check) {
-        return res.send({ wrongPassword: true });
+        return res.send({ error: true , message:"Invalid Credentials" });
       }
       const data = {
         user: {
@@ -172,7 +172,7 @@ router.post(
       res.json({ authToken, user, totalItems, needVerificationstatus: false });
     } catch (err) {
       console.log(err);
-      res.status(500).send({ error: "Some Errored Occured" });
+      res.status(500).send({ error: true , message:"Internal Server Error" });
     }
   }
 );

@@ -35,11 +35,11 @@ export default function Login() {
           navigate("/")
       }
       else{
-        throw Error("error")
+        throw Error("Error occured in the login Process")
       }
     } catch (error) {
-       // Handle sign-up errors
-      toast.error("Cannot Login!");
+      
+      console.log(error)
      }
   };
 

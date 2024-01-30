@@ -22,13 +22,16 @@ export default function AddressForm() {
     state: "",
     userId,
   });
+  // useEffect to handle initial data fetching and redirection
   useEffect(() => {
+     // Redirect to home if no entry or user not authenticated
     if (!location.state?.entry) {
       return navigate("/");
     }
     if (!localStorage.getItem("authToken")) {
       return navigate("/");
     }
+      // Set initial address details if available in location state
     if (location.state.address) {
       setAddress(location.state.address);
     }

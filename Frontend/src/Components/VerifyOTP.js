@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Loading from "./Loading";
 export default function VerifyOTP() {
-    const {userId , isLoading} = useSelector((store)=>store.authentication)
+    const {userId , isLoading , email} = useSelector((store)=>store.authentication)
     const navigate = useNavigate();
     const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
@@ -43,7 +43,7 @@ export default function VerifyOTP() {
     <div className={Style.otpdiv}><img src="https://res.cloudinary.com/dgxvtemh2/image/upload/v1696196075/Urban%20Cartel/VerifyOTP_cq5qfs.png" alt="enter Otp"/></div>
     <header className={Style.otpheader}>
         <h3>Enter Verification Code</h3>
-        <p>Code is sent on </p>
+        <p>Code is sent on {email}</p>
     </header>
       <div className={Style.otpInput}>
         <OtpInput 

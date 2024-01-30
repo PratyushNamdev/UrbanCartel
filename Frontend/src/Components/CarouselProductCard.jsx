@@ -5,7 +5,11 @@ export default function CarouselProductCard(props) {
   const navigate = useNavigate();
   // Function to navigate to the product detail page when the card is clicked
   const navigateToProductDetail = () => {
-     // Use the navigate function to redirect to the product detail page with the product ID
+    // Use the navigate function to redirect to the product detail page with the product ID
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // Optional: Adds smooth scrolling animation
+    });
     navigate(`/productDescription/${props.data._id}`, { state: { props } });
   };
   return (

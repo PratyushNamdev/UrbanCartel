@@ -26,7 +26,9 @@ const OrderItemSchema = new Schema({
         type:String,
         required:true,    
     },
-    products:[productSchema]
+    products:[productSchema],
+ 
 });
+
 const OrderItems = mongoose.model("OrderItems" , OrderItemSchema);
 module.exports = OrderItems;

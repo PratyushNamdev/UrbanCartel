@@ -6,13 +6,14 @@ import {host} from "../../Helper/host";
 
 const initialState = {
   userId: "",
+  email:"",
   isLoggedIn: false,
   isLoading: false,
 
 };
 export const signUp = createAsyncThunk("/api/signUp", async (formData = {}) => {
   try {
-    console.log(formData)
+
     const response = await fetch(
       `${host}/api/authentication/signup`,
       {
@@ -28,7 +29,7 @@ export const signUp = createAsyncThunk("/api/signUp", async (formData = {}) => {
    
 
     const data = await response.json();
-     console.log("response data" +data)
+     
     return data;
   } catch (e) {
     toast.error("An Error Occurred");
@@ -55,8 +56,7 @@ export const verifyOTP = createAsyncThunk(
 
 
       const data = await response.json();
-      console.log(data)
-      toast.success("daf" + data.authToken)
+    
       if(data.authToken){
           otpData.dispatch(setUser(data.user))
          }
@@ -118,17 +118,23 @@ const AuthenticationSlice = createSlice({
       })
       .addCase(signUp.fulfilled, (state, action) => {
         state.isLoading = false;
-
-        if (action.payload.needVerificationstatus) {
+        console.log(action.payload)
+        if (action.payload?.needVerificationstatus) {
           state.userId = action.payload.id;
-        
+          state.email = action.payload.email;
         }
-        else if(action.payload.error){
-          toast.error("error message"+action.payload.message)
+        else if(action.payload?.error){
+          toast.error(action.payload.message);
         }
-         else if (action.payload.id === null || !action.payload.status) {
+        else if (action.payload?.errors){
+          console.log(action.payload.error)
+          toast.error(action.payload.message[0].msg);
+        }
+         else if (action.payload.id === null || !action.payload?.status) {
           toast.error("Cannot SignUP!! An error occurred");
         }
+        
+        
       })
       .addCase(signUp.rejected, (state) => {
         state.isLoading = false;
@@ -142,7 +148,6 @@ const AuthenticationSlice = createSlice({
         state.isLoading = false;
         if(action.payload.authToken){
           localStorage.setItem("authToken" , action.payload.authToken);
-          console.log(action)
           state.isLoggedIn = true;
           state.userId = action.payload.user._id;
         }
@@ -164,9 +169,9 @@ const AuthenticationSlice = createSlice({
       .addCase(logIn.fulfilled, (state, action) => {
         state.isLoading = false;
 
-        if (action.payload.needVerificationstatus) {
+        if (action.payload?.needVerificationstatus) {
           state.userId = action.payload.id;
-         
+          state.email = action.payload.email;
         } 
         else if (action.payload.authToken) {
             
@@ -176,14 +181,8 @@ const AuthenticationSlice = createSlice({
             
          
         }
-        else{
-            if(action.payload.wrongPassword){
-              toast.error("Invalid Credentials ...!")
-            }
-            else{
-              toast.error("someting went wrong ...!")
-
-            }
+        else if (action.payload?.error){
+           toast.error(action.payload.message);
         }
       })
       .addCase(logIn.rejected, (state) => {

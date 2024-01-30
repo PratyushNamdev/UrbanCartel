@@ -31,7 +31,7 @@ export default function SignUp() {
     try {
       // Dispatch the signUp action with formData
       const signupResponse = await dispatch(signUp(formData));
-     console.log(signupResponse)
+
       // After successful sign-up, navigate to a different route
       if (signupResponse.payload.needVerificationstatus) {
           navigate("/verifyOTP")

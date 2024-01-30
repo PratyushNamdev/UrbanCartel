@@ -5,7 +5,9 @@
   margin: 0.5em auto;
   
 }
-
+.productDetail_wrapper{
+  margin-bottom: 2em;
+}
 .carousel_div {
   height: 300px;
   overflow: hidden;
@@ -43,16 +45,28 @@ table.responsivetable {
     text-transform: uppercase;
 
 }
+.rating{
+  font-size: 16px;
+  color: rgb(0 ,0 ,0 ,0.8);
+  display: flex;
+  align-items: center;
+  
+  
+}
 .primary_btn{
     background-color: #FFD84D;
 }
 .table_container{
     padding:0 1em 1em 1em ;
+
 }
 table.responsivetable th,
 table.responsivetable td {
   text-align: center;
-  border-bottom: 1px solid #ddd;
+ 
+}
+table.responsivetable td{
+  border: 1px solid #c0bcbc;
 }
 .relatedProductCarouselContainer{
   width: 100%;
@@ -63,6 +77,7 @@ table.responsivetable td {
 .relatedProductCarouselContainer>h4{
   padding: 0 0 0 1em;
 }
+
 /* Responsive styles for smaller screens */
 @media (max-width: 768px) {
   table.responsivetable th,
