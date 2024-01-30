@@ -1,5 +1,6 @@
 import React from "react";
 import Style from "../CSS/CarouselProductCard.module.css";
+import ReactStars from "react-rating-stars-component";
 import { useNavigate } from "react-router-dom";
 export default function CarouselProductCard(props) {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ export default function CarouselProductCard(props) {
     // Use the navigate function to redirect to the product detail page with the product ID
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', // Optional: Adds smooth scrolling animation
+      behavior: "smooth", // Optional: Adds smooth scrolling animation
     });
     navigate(`/productDescription/${props.data._id}`, { state: { props } });
   };
@@ -19,7 +20,23 @@ export default function CarouselProductCard(props) {
       </div>
       <div>
         <h6 className={Style.heading}>{props.data.title}</h6>
-        <p>Rating - {props.data.average_rating}</p>
+        <div
+          style={{
+            fontSize: "16px",
+            color: " rgb(0 ,0 ,0 ,0.8)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent:"center"
+          }}
+        >
+          <ReactStars
+            count={5}
+            value={parseInt(props.data.average_rating)}
+            edit={false}
+            size={18}
+          />{" "}
+          <span>({props.data.average_rating})</span>
+        </div>
         <h6 className={Style.heading}>
           ₹{props.data.selling_price_numeric}{" "}
           <strike>{props.data.actual_price}</strike> {props.data.discount}
