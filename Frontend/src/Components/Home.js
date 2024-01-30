@@ -134,15 +134,15 @@ export default function Home() {
               <figcaption>Winter wear</figcaption>
             </Link>
           </div>
-          <Link to="/productCatalog/trousers">
             <div className={Style.img_box_II}>
+          <Link to="/productCatalog/trousers">
               <img
                 src="https://res.cloudinary.com/dgxvtemh2/image/upload/v1695670463/Urban%20Cartel/Trousers_qvzdmn.jpg"
                 alt="Trousers"
               />
               <figcaption>Trousers</figcaption>
-            </div>
           </Link>
+            </div>
           <div className={Style.img_box_II}>
             <Link to="/productCatalog/kurtas">
               <img
